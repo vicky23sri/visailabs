@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import Sections from '../components/Sections.astro';
+import Img from '../components/Img.astro';
+import { pages, type Section } from '../data/pages';
+import { posts, slugify } from '../lib/posts';
+import privacy from '../data/generated/privacy.json';
+
+export function getStaticPaths() {
+  return [
+    ...pages.map((p) => ({ params: { slug: p.path }, props: { page: p } })),
+    ...posts.map((p) => ({ params: { slug: p.slug }, props: { post: p } })),
+    { params: { slug: 'privacy-policy' }, props: { privacy: true } },
+  ];
+}
+const { page, post, privacy: isPrivacy } = Astro.props as {
+  page?: (typeof pages)[number]; post?: (typeof posts)[number]; privacy?: boolean;
+};
+const sections: Section[] = [{ type: 'prose', html: privacy.html }];
+---
+{page && (
+  <Base title={page.title} description={page.description}>
+    <Sections sections={page.sections} />
+  </Base>
+)}
+
+{post && (
+  <Base title={post.seoTitle} description={post.description} image={post.media?.src}>
+    <article>
+      <header class="shell pb-block pt-36">
+        <p class="label text-accent-text" data-reveal>{post.date}</p>
+        <h1 data-lines class="mt-6 max-w-6xl text-heading">{post.title}</h1>
+        <ul class="mt-8 flex flex-wrap gap-3">
+          {post.categories.map((c) => <li><a class="btn btn-quiet" href={`/category/${slugify(c)}/`}>{c}</a></li>)}
+        </ul>
+      </header>
+      {post.media && (
+        <div class="shell"><div data-rise class="photo"><Img media={post.media} eager alt={post.image?.alt} class="max-h-media" /></div></div>
+      )}
+      <div class="shell section">
+        <div class="prose-site mx-auto" set:html={post.html}></div>
+        <div class="mx-auto mt-block flex max-w-prose flex-wrap items-center justify-between gap-6 border-t border-line pt-6">
+          <a href="/blog/" class="btn btn-quiet">← Back to VisAI Blog</a>
+          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(new URL(Astro.url.pathname, Astro.site).href)}`} class="label text-muted transition-colors hover:text-fg">Share this post →</a>
+        </div>
+      </div>
+    </article>
+  </Base>
+)}
+
+{isPrivacy && (
+  <Base title="Privacy Policy">
+    <div class="pt-16"><Sections sections={sections} /></div>
+  </Base>
+)}

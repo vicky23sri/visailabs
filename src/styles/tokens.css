@@ -1,0 +1,146 @@
+/* ==========================================================================
+   DESIGN TOKENS: the single source of truth for the whole website.
+
+   Change a value here and every page updates, including the WebGL effects
+   and the favicon. Nothing outside this file is allowed to define a color,
+   font, or custom size (`npm run check:tokens` fails if something does).
+   ========================================================================== */
+
+/* FONTS: to swap a family, change the import and the matching --font-* line. */
+@import '@fontsource/instrument-serif/400.css';
+@import '@fontsource-variable/inter-tight';
+
+@theme static {
+  /* Removes Tailwind's default palette so only the colors below can be used. */
+  --color-*: initial;
+
+  /* ---- COLOR: raw palette ---------------------------------------------- */
+  --color-white: #ffffff;
+  --color-sand: #efece6;
+  --color-ink: #12141a;
+  --color-graphite: #1d2029;
+  --color-orange: #ff5a1f; /* the one accent, taken from the logo */
+  --color-ember: #c9400c; /* darker orange, readable as small text on white */
+
+  /* ---- COLOR: roles (what components actually use) --------------------- */
+  --color-bg: var(--color-white);
+  --color-raised: var(--color-white);
+  --color-sunken: var(--color-sand);
+  --color-fg: var(--color-ink);
+  --color-muted: color-mix(in srgb, var(--color-fg) 62%, var(--color-bg));
+  --color-line: color-mix(in srgb, var(--color-fg) 14%, transparent);
+  --color-accent: var(--color-orange);
+  --color-accent-text: var(--color-ember);
+  --color-button: var(--color-orange);
+  --color-on-button: var(--color-ink);
+
+  /* ---- FONT FAMILIES --------------------------------------------------- */
+  --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
+  --font-body: 'Inter Tight Variable', ui-sans-serif, system-ui, sans-serif;
+
+  /* ---- TYPE SCALE: fluid, from phone to wide desktop ------------------- */
+  --text-label: 0.875rem;
+  --text-label--line-height: 1.35;
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.5;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.55;
+  --text-lead: clamp(1.1875rem, 1.05rem + 0.55vw, 1.5rem);
+  --text-lead--line-height: 1.38;
+  --text-title: clamp(1.75rem, 1.4rem + 1.3vw, 2.75rem);
+  --text-title--line-height: 1.04;
+  --text-heading: clamp(2.75rem, 1.7rem + 4.4vw, 6.5rem);
+  --text-heading--line-height: 0.98;
+  --text-page: clamp(3.25rem, 1.6rem + 6.6vw, 9rem);
+  --text-page--line-height: 0.92;
+  --text-display: clamp(3.5rem, min(1.5rem + 9.2vw, 16.5svh), 12.5rem);
+  --text-display--line-height: 0.88;
+  --text-hero: clamp(2.75rem, 1.5rem + 4.6vw, 6.75rem);
+  --text-hero--line-height: 0.95;
+  --text-statement: clamp(2.25rem, 1.2rem + 4.2vw, 6rem);
+  --text-statement--line-height: 1;
+  --text-mega: clamp(5rem, 22.5vw, 34rem);
+  --text-mega--line-height: 0.8;
+
+  --tracking-tight: -0.022em;
+  --tracking-snug: -0.012em;
+  --font-weight-display: 400;
+
+  /* ---- SPACING: --spacing scales every p-*, m-*, gap-* on the site ----- */
+  --spacing: 0.25rem;
+  --spacing-gutter: clamp(1.25rem, 3vw, 3rem);
+  --spacing-section: clamp(6rem, 12vw, 13rem);
+  --spacing-block: clamp(2.75rem, 5vw, 5.5rem);
+  --spacing-nav: 5rem; /* navbar height at the top of a page */
+  --spacing-nav-scrolled: 3.75rem; /* navbar height once condensed */
+  --spacing-nav-gap: 0.75rem; /* gap between the condensed navbar and the screen edge */
+  --spacing-media: 72svh; /* tallest a post's cover image can be */
+  --spacing-flight: 340svh; /* scroll length of the 3D photo flight */
+  --spacing-solution: 88svh; /* scroll length of each solution */
+  --spacing-sticky-phone: 38svh; /* solution visual height on phones */
+  --spacing-sticky-desk: 76svh; /* solution visual height on desktop */
+  --spacing-sticky-top: 6rem; /* where sticky visuals hold */
+  --spacing-card-w: clamp(19rem, 34vw, 34rem); /* width of a sets-us-apart card */
+  --spacing-card-h: min(74svh, 46rem);
+  --spacing-tile: clamp(8.5rem, 17vw, 21rem); /* row height of the gallery mosaic */
+  --spacing-play: clamp(4.5rem, 7vw, 7rem); /* size of the video play button */
+  --spacing-video: calc(100svh - 6rem); /* tallest a video can be */
+  --spacing-fan: clamp(24rem, 46vw, 44rem); /* height of the team photo fan */
+  --spacing-card-lead: 46vw; /* width of the heading beside the cards */
+
+  /* ---- LAYOUT ---------------------------------------------------------- */
+  --container-page: 110rem;
+  --container-prose: 44rem;
+  --container-navbar: 62rem; /* width of the condensed navbar */
+
+  /* ---- CORNERS & SHADOW ------------------------------------------------ */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-full: 999px;
+  --shadow-nav: 0 0.75rem 2.5rem -1rem color-mix(in srgb, var(--color-ink) 32%, transparent);
+  --shadow-drop: 0 1.5rem 4rem -1rem color-mix(in srgb, var(--color-ink) 30%, transparent);
+
+  /* ---- MOTION ---------------------------------------------------------- */
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 250ms;
+  --duration-nav: 650ms;
+  --duration-morph: 420ms; /* navbar condensing and dropdown reshaping */
+  --duration-slow: 1100ms;
+  --duration-pulse: 2400ms; /* ring around the play button */
+
+  /* ---- WEBGL: read by src/three/ --------------------------------------- */
+  --color-vision-bg: #0a0c12; /* background of the machine-vision view */
+  --color-point: #e8e6e0; /* points in the 3D LiDAR scan */
+  --vision-edge: 2.2; /* strength of edges in the machine-vision view */
+  --vision-lens: 170; /* size of the mouse lens, in pixels */
+  --vision-sweep-seconds: 8; /* time between scan-line passes */
+  --vision-grain: 0.05; /* film grain over photos */
+  --color-wave: var(--color-ink); /* points on the hero surface */
+  --wave-points: 56000; /* detail of the hero surface on desktop */
+  --wave-points-phone: 18000;
+  --wave-point-size: 1.5;
+  --wave-scan-seconds: 9; /* time for the scan line to cross the surface */
+  --wall-seconds: 70; /* speed of the moving photo wall */
+  --scan-points: 130000; /* detail of the LiDAR scan on desktop */
+  --scan-points-phone: 48000;
+  --webgl-quality: 1.5; /* sharpness; lower it for faster rendering */
+}
+
+/* Section color schemes. Add one of these classes to recolor any block. */
+.theme-sand {
+  --color-bg: var(--color-sand);
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+}
+
+.theme-dark {
+  --color-bg: var(--color-ink);
+  --color-raised: var(--color-graphite);
+  --color-sunken: var(--color-graphite);
+  --color-fg: var(--color-white);
+  --color-muted: color-mix(in srgb, var(--color-white) 72%, transparent);
+  --color-line: color-mix(in srgb, var(--color-white) 22%, transparent);
+  --color-accent-text: var(--color-orange);
+  color: var(--color-fg);
+}

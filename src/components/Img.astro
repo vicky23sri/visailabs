@@ -1,0 +1,6 @@
+---
+import type { Media } from '../lib/media';
+interface Props { media: Media; alt?: string; class?: string; eager?: boolean }
+const { media, alt = '', class: cls, eager } = Astro.props;
+---
+<img src={media.src} width={media.w} height={media.h} alt={alt} class={cls} loading={eager ? 'eager' : 'lazy'} decoding="async" />

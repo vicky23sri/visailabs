@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import Arrow from '../components/Arrow.astro';
+import { ui } from '../data/site';
+---
+<Base title={ui.notFoundTitle}>
+  <section class="flex min-h-svh items-end pb-block">
+    <div class="shell">
+      <h1 class="text-mega text-accent">{ui.notFoundTitle}</h1>
+      <a href="/" class="btn mt-10">{ui.notFoundBack}<Arrow /></a>
+    </div>
+  </section>
+</Base>

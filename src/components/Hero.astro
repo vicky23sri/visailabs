@@ -1,0 +1,40 @@
+---
+// Every page's opening: a bright page, a living 3D scan surface, big type,
+// and the page's real photo as a clean card.
+import { media } from '../lib/media';
+import type { Action } from '../data/pages';
+import Img from './Img.astro';
+import Arrow from './Arrow.astro';
+
+interface Props { title: string; eyebrow?: string; lede?: string; action?: Action; image: string; display?: boolean; wall?: string[] }
+const { title, eyebrow, lede, action, image, display, wall } = Astro.props;
+const columns = wall ? Array.from({ length: 3 }, (_, c) => wall.filter((_, i) => i % 3 === c)) : [];
+---
+<section data-hero class="relative overflow-hidden">
+  <canvas data-wave aria-hidden="true" class="wave"></canvas>
+  <div class="shell relative">
+    <div class:list={['grid lg:grid-cols-12 lg:items-end', display ? 'gap-8 pb-8 pt-28 lg:min-h-svh' : 'min-h-svh gap-10 pb-block pt-36']}>
+      {display && <h1 data-lines class="max-w-7xl text-display lg:col-span-12">{title}</h1>}
+      <div data-hero-copy class={display ? 'lg:col-span-6' : 'lg:col-span-7'}>
+        {eyebrow && <p class="label mb-5 text-accent-text" data-reveal>{eyebrow}</p>}
+        {!display && <h1 data-lines class="text-hero">{title}</h1>}
+        {lede && <p data-reveal class="mt-7 max-w-2xl text-lead text-muted">{lede}</p>}
+        {action && <a data-reveal href={action.href} class="btn mt-8">{action.label}<Arrow /></a>}
+        <slot />
+      </div>
+      <div data-hero-card class={'lg:col-span-4 lg:col-start-9'}>
+        {wall
+          ? <div data-reveal class="photo aspect-4/5" aria-hidden="true">
+              <div class="wall">
+                {columns.map((col, c) => (
+                  <div class="wall-col" data-wall={c % 2 ? 'down' : 'up'}>
+                    <div>{[...col, ...col].map((src) => <img src={src} alt="" decoding="async" />)}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          : <div data-rise class:list={['photo', display ? 'aspect-2/1' : 'aspect-4/3 lg:aspect-4/5']}><Img media={media(image)} eager /></div>}
+      </div>
+    </div>
+  </div>
+</section>

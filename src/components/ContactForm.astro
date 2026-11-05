@@ -1,0 +1,42 @@
+---
+import { contact, site, ui } from '../data/site';
+import Arrow from './Arrow.astro';
+const { form } = contact;
+---
+<form data-contact-form action={site.formEndpoint ?? `mailto:${site.formEmail}`} method="post" data-sent={ui.sent} class="grid gap-5 sm:grid-cols-2">
+  {form.fields.map((f) => (
+    <label class:list={['block', f.type === 'textarea' && 'sm:col-span-2']}>
+      <span class="label">{f.label}</span>
+      {f.type === 'textarea'
+        ? <textarea name={f.name} rows="5" class="field resize-y"></textarea>
+        : <input type={f.type as astroHTML.JSX.HTMLInputTypeAttribute} name={f.name} required={f.required} class="field" />}
+    </label>
+  ))}
+  <div class="sm:col-span-2">
+    <button type="submit" class="btn cursor-pointer">{form.submit}<Arrow /></button>
+    <p role="status" data-status class="mt-4 text-small text-muted"></p>
+  </div>
+</form>
+<script>
+  // With an endpoint configured the form posts in the background;
+  // without one it opens the visitor's email app, already filled in.
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const status = form.querySelector('[data-status]')!;
+      if (form.action.startsWith('mailto:')) {
+        const body = [...data.entries()].map(([k, v]) => `${k}: ${v}`).join('\n');
+        location.href = `${form.action}?body=${encodeURIComponent(body)}`;
+        return;
+      }
+      const res = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } }).catch(() => null);
+      if (res?.ok) {
+        form.reset();
+        status.textContent = form.dataset.sent ?? '';
+      } else {
+        status.textContent = `sales@visailabs.com`;
+      }
+    });
+  });
+</script>

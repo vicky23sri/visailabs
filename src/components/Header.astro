@@ -1,0 +1,98 @@
+---
+import { nav, empLogin, site, ui, social } from '../data/site';
+import { media } from '../lib/media';
+import { newTab } from '../lib/links';
+import Arrow from './Arrow.astro';
+
+const logo = media(site.logo);
+const contact = nav.flatMap((i) => i.groups).flatMap((g) => g.links).find((l) => l.href === '/contact/')!;
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+const current = (href: string) => (href === path ? 'page' : undefined);
+const hasCurrent = (item: (typeof nav)[number]) => item.groups.some((g) => g.links.some((l) => l.href === path));
+const logos: Record<string, ReturnType<typeof media>> = { vMeasure: media('vMeasure-logo'), vAudit: media('vAudit-logo') };
+---
+<header data-nav class="site-nav" data-scrolled="false">
+  <div data-nav-wrap class="nav-wrap">
+    <div class="nav-bar">
+      <a href="/" aria-label={site.name} class="block shrink-0">
+        <img src={logo.src} width={logo.w} height={logo.h} alt={site.name} class="nav-logo" />
+      </a>
+
+      <nav aria-label="Primary" data-nav-links class="nav-links">
+        <span data-nav-pill class="nav-pill" aria-hidden="true"></span>
+        {nav.map((item, i) => (
+          <button type="button" data-nav-toggle aria-expanded="false" aria-controls={`nav-panel-${i}`} data-current={hasCurrent(item) ? 'true' : undefined} class="nav-link">{item.label}</button>
+        ))}
+      </nav>
+
+      <div class="nav-actions">
+        <a href={empLogin.href} class="nav-quiet">{empLogin.label}</a>
+        <a href={contact.href} class="nav-cta">{contact.label}<Arrow /></a>
+      </div>
+
+      <button type="button" data-burger aria-expanded="false" aria-controls="nav-sheet" aria-label={ui.menu} class="burger"><span></span><span></span></button>
+    </div>
+
+    <!-- One dropdown that reshapes itself between menus -->
+    <div data-nav-drop class="nav-drop">
+      {nav.map((item, i) => (
+        <div id={`nav-panel-${i}`} data-nav-panel data-pos="after" class="nav-panel">
+          <div class:list={['flex gap-3 p-3', item.groups.length === 1 && item.groups[0].links.length > 2 && 'grid grid-cols-2']}>
+            {item.groups.map((g) => (
+              g.title
+                ? <div class="drop-group">
+                    <a href={g.title.href} {...newTab(g.title.href)} class="drop-head">
+                      <img src={logos[g.title.label].src} alt={g.title.label} class="h-8 w-auto" />
+                      <Arrow />
+                    </a>
+                    <ul>
+                      {g.links.map((l) => <li><a href={l.href} {...newTab(l.href)} class="drop-link">{l.label}<Arrow /></a></li>)}
+                    </ul>
+                  </div>
+                : g.links.map((l) => <a href={l.href} aria-current={current(l.href)} class="drop-card">{l.label}<Arrow /></a>)
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</header>
+
+<!-- Phone and tablet menu -->
+<div id="nav-sheet" data-sheet data-open="false" class="sheet">
+  <div class="sheet-scroll">
+    <div class="flex-1">
+      {nav.map((item, i) => (
+        <div class="sheet-row" data-acc-row style={`--i:${i}`}>
+          <button type="button" data-acc aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`sheet-acc-${i}`} class="sheet-head">
+            {item.label}
+            <span class="sheet-plus" aria-hidden="true"></span>
+          </button>
+          <div id={`sheet-acc-${i}`} data-acc-body class="sheet-body" inert={i !== 0}>
+            <div class="min-h-0 overflow-hidden">
+              <div class="pb-6">
+                {item.groups.map((g) => (
+                  <div class="mb-4 last:mb-0">
+                    {g.title && <a href={g.title.href} {...newTab(g.title.href)} class="mb-2 block"><img src={logos[g.title.label].src} alt={g.title.label} class="h-8 w-auto" /></a>}
+                    <ul>
+                      {g.links.map((l) => <li><a href={l.href} {...newTab(l.href)} aria-current={current(l.href)} class="sheet-link">{l.label}</a></li>)}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="sheet-foot" style={`--i:${nav.length}`}>
+      <a href={contact.href} class="btn w-full justify-between">{contact.label}<Arrow /></a>
+      <div class="mt-5 flex flex-wrap items-center justify-between gap-4 text-small">
+        <a href={empLogin.href}>{empLogin.label}</a>
+        <ul class="flex gap-5 text-muted">
+          {social.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

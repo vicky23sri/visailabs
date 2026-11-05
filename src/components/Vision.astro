@@ -1,0 +1,9 @@
+---
+// A real photo with the machine-vision effect. The plain image is the fallback.
+import type { Media } from '../lib/media';
+interface Props { media: Media; class?: string; eager?: boolean; alt?: string; push?: boolean; zoom?: number; focusY?: number; scrim?: boolean; rise?: boolean }
+const { media, class: cls, eager, alt = '', push, zoom, focusY, scrim, rise } = Astro.props;
+---
+<div data-vision data-push={push ? 'true' : undefined} data-zoom={zoom} data-focus-y={focusY} data-rise={rise ? '' : undefined} class:list={['vision photo', scrim && 'scrim', cls]}>
+  <img src={media.src} width={media.w} height={media.h} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+</div>

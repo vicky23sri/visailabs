@@ -1,0 +1,143 @@
+---
+import { newTab } from '../lib/links';
+import Base from '../layouts/Base.astro';
+import Img from '../components/Img.astro';
+import Video from '../components/Video.astro';
+import Vision from '../components/Vision.astro';
+import Hero from '../components/Hero.astro';
+import Arrow from '../components/Arrow.astro';
+import { flyPhoto, media } from '../lib/media';
+
+const points = [
+  'Built for deployment, not experimentation',
+  'Strong engineering and operational understanding',
+  'Clear focus on real industry needs',
+];
+const flight = ['warehouse-industry', 'photo-for-website', 'sturdecam_1', 'pallet-dimension', 'office-culture', 'occlusion_01', 'interior-warehouse-logistic', 'management-people', 'people-detection-with-bounding-box', '5-min', 'ith-agv-robotic-arm', 'engineering-people', 'container-streming', 'e-cam30_cunano'].map(flyPhoto);
+const solutions = [
+  { logo: 'vMeasure-logo', alt: 'vMeasure logo', title: 'Dimensioning solutions for Warehouses', text: 'Capturing accurate dimensions, weight and images of parcels, pallets and irregulars within seconds, integrated with WMS, TMS, and shipping software.', href: 'https://vmeasure.ai/' },
+  { logo: 'vAudit-logo', alt: 'vAudit', title: 'Visual Inspection Solutions for Warehouses', text: 'Capturing video proof during packing, order checks, and returns inspection, with each recording linked to a specific order or return ID.', href: 'https://vaudit.ai/' },
+];
+const apart = [
+  { title: 'In-House Build', photo: 'sturdecam_1', text: 'We design and build the full system in house, including OEM cameras, hardware, and software. This gives us tighter control over accuracy, performance, and product quality.' },
+  { title: 'Easy to Deploy', photo: 'pallet-dimension', text: 'Our systems use advanced computer vision technology without adding complexity. The setup is practical, straightforward, and easy to deploy and use across real operations.' },
+  { title: 'Built to Scale', photo: 'warehouse-industry', text: 'From startups to mid-sized businesses to enterprise operations, VisAI Labs builds systems that scale with the size, speed, and demands of each business.' },
+  { title: 'Secure Cloud', photo: 'image-1-01-01-min', text: 'VisAI Labs offers the only SOC 2 compliant cloud platform for dimensioning and packing video logging. That gives businesses a more secure and trusted way to store, access, and manage operational data' },
+];
+const fan = [
+  { n: '5-min', cls: 'left-0 top-1/4 z-10 w-2/5', lag: '0.32' },
+  { n: 'office-culture', cls: 'left-1/4 top-1/12 z-20 w-2/5', lag: '0.2' },
+  { n: 'management-people', cls: 'right-0 top-0 z-30 w-1/2', lag: '0.1' },
+];
+---
+<Base title="Edge AI and Computer Vision Product Development Experts- Home" description="VisAI Labs assists in building deployable Edge AI and Computer Vision solutions to help the organization become an AI native enterprise.">
+
+  <!-- 1. Full-screen real footage of the work, seen through the machine's eyes -->
+  <Hero display title="Building Physical AI Solutions with Advanced Computer Vision" image="quality-control-misspelled">
+    <ul class="grid max-w-3xl gap-x-6 gap-y-3 border-t border-line pt-4 text-muted sm:grid-cols-2">
+      <li data-reveal class="text-small">Built for real-world warehouse and logistics operations</li>
+      <li data-reveal class="text-small">Focused on dimensioning accuracy and pack station visibility</li>
+    </ul>
+  </Hero>
+
+  <!-- 2. A 3D flight through the company's own photographs -->
+  <section data-flight data-photos={JSON.stringify(flight)} data-scrub-area class="relative h-flight">
+    <div class="sticky top-0 flex h-svh items-center justify-center overflow-hidden">
+      <canvas aria-hidden="true" class="absolute inset-0 size-full"></canvas>
+      <div class="relative mx-auto max-w-md px-6 text-center md:max-w-2xl">
+        <h2 class="label text-accent-text" data-reveal>Who we are</h2>
+        <p data-scrub class="serif mt-5 text-statement">VisAI Labs, founded in 2018, provides AI-enabled computer vision solutions for real-world industry operations.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-section">
+    <div class="shell grid gap-12 lg:grid-cols-12">
+      <div class="space-y-6 lg:col-span-5">
+        <p data-reveal class="text-lead">At VisAI Labs, we believe Physical AI is the future, where machines do not just process data, but understand the physical world around them and respond with speed and accuracy. We develop vision-based systems that bring this capability into practical industry use.</p>
+        <p data-reveal class="text-lead text-muted">Using advanced computer vision technology, we create solutions that improve warehouse, logistics and fulfilment operations through better accuracy, visibility, and measurable ROI from day one.</p>
+      </div>
+      <ul class="border-t border-line lg:col-span-6 lg:col-start-7">
+        {points.map((p) => <li data-reveal class="serif border-b border-line py-5 text-title">{p}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section data-video-wrap class="relative px-nav-gap">
+    <h2 data-video-title data-lines class="shell pointer-events-none z-10 mb-8 text-heading md:absolute md:inset-x-nav-gap md:bottom-8 md:mb-0 md:text-white">What does VisAI Labs do?</h2>
+    <Video id="iSs1uplXYqo" title="What does VisAI Labs do?" poster={media('office-culture')} grow />
+  </section>
+
+  <!-- 3. Solutions: one visual holds while the text scrolls past -->
+  <section class="section">
+    <div class="shell">
+      <div class="mb-block grid gap-8 lg:grid-cols-12">
+        <h2 data-lines class="text-heading lg:col-span-7">Solutions Offered by VisAI Labs</h2>
+        <p data-reveal class="text-lead text-muted lg:col-span-4 lg:col-start-9 lg:self-end">From accurate dimensions to pack station visibility, every solution we build is shaped by the practical demands of warehousing and logistics operations.</p>
+      </div>
+      <div class="grid gap-8 lg:grid-cols-12">
+        <div class="sticky top-sticky-top z-10 h-sticky-phone lg:col-span-7 lg:h-sticky-desk">
+          <div class="photo size-full bg-vision-bg">
+            <div class="sol-media"><Img media={media('pallet-dimension')} class="absolute inset-0 size-full object-cover" /><canvas data-scan aria-hidden="true" class="relative size-full"></canvas></div>
+            <div class="sol-media"><Vision media={media('quality-control-misspelled')} focusY={0.5} class="size-full rounded-none!" /></div>
+          </div>
+        </div>
+        <div class="lg:col-span-4 lg:col-start-9">
+          {solutions.map((s) => (
+            <article class="sol-step flex flex-col justify-center py-10 lg:min-h-solution lg:py-0">
+              <a href={s.href} {...newTab(s.href)} class="block w-fit"><Img media={media(s.logo)} alt={s.alt} class="h-10 w-auto" /></a>
+              <h3 class="mt-6 text-heading">{s.title}</h3>
+              <p class="mt-5 text-muted">{s.text}</p>
+              <a href={s.href} {...newTab(s.href)} class="btn mt-7 w-fit">Learn More<Arrow /></a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. What Sets Us Apart: the page holds while cards travel sideways -->
+  <section data-track-wrap class="theme-dark overflow-hidden bg-ink">
+    <div class="flex min-h-svh items-center py-block lg:py-0">
+      <div data-track class="flex w-full flex-col gap-4 px-gutter lg:w-max lg:flex-row lg:items-stretch lg:gap-5">
+        <div class="flex w-full shrink-0 flex-col justify-end pb-6 lg:h-card-h lg:w-card-lead lg:pb-0 lg:pr-12">
+          <h2 data-lines class="text-display">What Sets Us Apart</h2>
+        </div>
+        {apart.map((a, i) => (
+          <article class="photo scrim relative flex h-card-h w-full shrink-0 flex-col justify-end p-6 md:p-8 lg:w-card-w">
+            <Img media={media(a.photo)} class="absolute inset-0" />
+            <div class="relative z-10">
+              <span class="label">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="mt-2 text-heading">{a.title}</h3>
+              <p class="mt-4 text-small">{a.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. The people -->
+  <section class="section overflow-hidden">
+    <div class="shell grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <h2 data-lines class="text-heading">Envision the next-gen AI tech with us!</h2>
+        <p data-reveal class="mt-7 text-lead text-muted">Create. Innovate. Join VisAI Labs.</p>
+        <a data-reveal href="/careers/" class="btn mt-8">Apply Now!<Arrow /></a>
+      </div>
+      <div class="relative h-fan lg:col-span-7">
+        {fan.map((f) => (
+          <div data-lag={f.lag} class:list={['photo absolute aspect-4/3', f.cls]}><Img media={media(f.n)} /></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <a href="/life-at-visai/" class="theme-dark zoom photo scrim mx-nav-gap mb-nav-gap flex min-h-media items-end p-8 md:p-14">
+    <Img media={media('photo-for-website')} class="absolute inset-0" />
+    <div class="relative z-10 flex w-full flex-wrap items-end justify-between gap-6">
+      <p class="serif text-heading">Life at Visai Labs</p>
+      <span class="btn">Take a Look!<Arrow /></span>
+    </div>
+  </a>
+</Base>

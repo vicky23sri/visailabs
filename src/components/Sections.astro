@@ -1,0 +1,278 @@
+---
+import type { Section } from '../data/pages';
+import { contact, site } from '../data/site';
+import { media, mediaByUrl, thumbOf } from '../lib/media';
+import { cards, categories } from '../lib/posts';
+import jobs from '../data/generated/jobs.json';
+import galleryRaw from '../data/generated/gallery.json';
+import Img from './Img.astro';
+import Video from './Video.astro';
+import PostCard from './PostCard.astro';
+import ContactForm from './ContactForm.astro';
+import Arrow from './Arrow.astro';
+import Hero from './Hero.astro';
+import Viewer from './Viewer.astro';
+
+const { sections } = Astro.props as { sections: Section[] };
+
+// Albums grouped under their year headings, in the original's order.
+type Album = { title: string; images: string[] };
+const groups: { year: string; albums: Album[]; names: string[] }[] = [];
+for (const a of galleryRaw as Album[]) {
+  if (/^\d{4}-\d{4}$/.test(a.title)) groups.push({ year: a.title, albums: [], names: [] });
+  else if (a.images.length && groups.length) groups.at(-1)!.albums.push(a);
+  else if (groups.length && !a.title.startsWith('A glimpse')) groups.at(-1)!.names.push(a.title);
+}
+// A spread of photos across every album, for the moving wall.
+const everyPhoto = (galleryRaw as Album[]).flatMap((a) => a.images.filter((_, i) => i % 4 === 0));
+const wallPhotos = everyPhoto.map((u) => mediaByUrl(u)).filter((m) => !!m).map(thumbOf);
+let albumIndex = 0;
+const cols = { 2: 'md:grid-cols-2', 3: 'md:grid-cols-2 lg:grid-cols-3', 4: 'sm:grid-cols-2 lg:grid-cols-4' };
+---
+{sections.map((s) => {
+  switch (s.type) {
+    case 'hero': return <Hero eyebrow={s.eyebrow} title={s.title} lede={s.lede} action={s.action} image={s.image} wall={s.wall ? wallPhotos : undefined} />;
+    case 'statement': return (
+      <section class="section">
+        <div class="shell grid gap-10 lg:grid-cols-12">
+          {s.eyebrow && <p class="label text-accent-text lg:col-span-12">{s.eyebrow}</p>}
+          {s.title && <h2 data-lines class="text-heading lg:col-span-7">{s.title}</h2>}
+          <p data-reveal class="text-lead text-muted lg:col-span-4 lg:col-start-9 lg:self-end">{s.text}</p>
+        </div>
+      </section>
+    );
+    case 'split': return (
+      <section class="section">
+        <div class="shell grid items-center gap-12 lg:grid-cols-12">
+          <div class:list={['lg:col-span-5', s.flip && 'lg:order-2 lg:col-start-8']}>
+            {s.eyebrow && <p class="label mb-6 text-accent-text" data-reveal>{s.eyebrow}</p>}
+            {s.title && <h2 data-lines class="mb-8 text-heading">{s.title}</h2>}
+            <div class="space-y-5">
+              {s.paragraphs.map((p, i) => <p data-reveal class:list={[s.statement || (i === 0 && s.paragraphs.length > 1) ? 'text-lead' : 'text-muted']}>{p}</p>)}
+            </div>
+          </div>
+          {s.image && (
+            <div data-rise class:list={['photo zoom aspect-4/3 lg:col-span-6', s.flip ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-7']}>
+              <Img media={media(s.image)} />
+            </div>
+          )}
+        </div>
+      </section>
+    );
+    case 'features': return (
+      <section class="section">
+        <div class="shell">
+          {s.eyebrow && <p data-reveal class="mb-6 max-w-2xl text-lead text-muted">{s.eyebrow}</p>}
+          {s.title && <h2 data-lines class="mb-block max-w-5xl text-heading">{s.title}</h2>}
+          {s.intro && <p data-reveal class="mb-block max-w-3xl text-lead text-muted">{s.intro}</p>}
+          <div class:list={['grid gap-x-8 border-t border-line', cols[s.columns ?? 3]]}>
+            {s.items.map((item, i) => {
+              const Tag = item.href ? 'a' : 'div';
+              return (
+                <Tag href={item.href} data-reveal class="zoom group flex flex-col gap-4 border-b border-line py-7">
+                  {s.numbered && <span class="label text-accent-text">{String(i + 1).padStart(2, '0')}</span>}
+                  {item.image && <div class:list={['photo rounded-md mb-2', item.title ? 'aspect-3/2' : 'aspect-square bg-white border border-line']}><Img media={media(item.image)} class={item.title ? '' : 'object-contain!'} /></div>}
+                  {item.title && <h3 class="text-title transition-colors group-[[href]]:group-hover:text-accent-text">{item.title}</h3>}
+                  {item.text && <p class:list={[item.title ? 'text-muted' : 'text-lead']}>{item.text}</p>}
+                  {item.action && <a href={item.action.href} class="btn btn-quiet mt-auto w-fit">{item.action.label}<Arrow /></a>}
+                </Tag>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+    case 'video': return (
+      <section class="section">
+        <div class="shell">
+          {s.eyebrow && <p class="label mb-6 text-accent-text" data-reveal>{s.eyebrow}</p>}
+          {s.title && <h2 data-lines class="mb-block max-w-5xl text-heading">{s.title}</h2>}
+          <Video id={s.id} title={s.title} />
+          {s.points && (
+            <ul class="mt-10 grid gap-x-8 border-t border-line sm:grid-cols-2 lg:grid-cols-5">
+              {s.points.map((p, i) => (
+                <li data-reveal class="border-b border-line py-6 text-small text-muted">
+                  <span class="label mb-3 block text-accent-text">{String(i + 1).padStart(2, '0')}</span>{p}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
+    );
+    case 'videos': return (
+      <section class="section">
+        <div class="shell">
+          <h2 data-lines class="mb-block text-heading">{s.title}</h2>
+          <div class="grid gap-6 md:grid-cols-2">{s.ids.map((id) => <Video id={id} title={s.title} />)}</div>
+        </div>
+      </section>
+    );
+    case 'heading': return (
+      <section class="pt-section">
+        <div class="shell">
+          <h2 data-lines class="max-w-5xl text-heading">{s.title}</h2>
+          {s.text && <p data-reveal class="mt-5 max-w-2xl text-lead text-muted">{s.text}</p>}
+        </div>
+      </section>
+    );
+    case 'kit': return (
+      <section class="pt-block">
+        <div class="shell">
+          <div class="grid gap-10 border-t border-line pt-8 lg:grid-cols-12">
+            <div class="lg:col-span-5">
+              <h2 data-lines class="text-heading">{s.title}</h2>
+              <p data-reveal class="mt-6 text-lead text-muted">{s.text}</p>
+              {s.lists.map((l) => (
+                <div data-reveal class="mt-8">
+                  <h3 class="label text-accent-text">{l.title}</h3>
+                  <ul class="mt-3 space-y-2 text-small">{l.items.map((i) => <li>{i}</li>)}</ul>
+                </div>
+              ))}
+              <a data-reveal href={s.action.href} class="btn mt-10">{s.action.label}<Arrow /></a>
+            </div>
+            <div class="grid grid-cols-2 gap-4 lg:col-span-6 lg:col-start-7">
+              {s.images.map((im) => (
+                <figure data-reveal>
+                  <div class="rounded-md bg-sunken p-4"><Img media={media(im.image)} alt={im.caption} class="aspect-4/3 w-full object-contain" /></div>
+                  <figcaption class="label mt-3 text-muted">{im.caption}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+    case 'cta': return (
+      <section class="px-nav-gap pb-nav-gap">
+        <div class="theme-dark grid items-end gap-10 rounded-lg bg-ink p-8 py-section md:px-14 lg:grid-cols-12">
+          <div class="lg:col-span-8">
+            <h2 data-lines class="text-heading">{s.title}</h2>
+            {s.text && <p data-reveal class="mt-6 max-w-2xl text-lead text-muted">{s.text}</p>}
+          </div>
+          <div class="lg:col-span-4 lg:text-right">
+            <a data-reveal href={s.action.href} class="btn">{s.action.label}<Arrow /></a>
+          </div>
+        </div>
+      </section>
+    );
+    case 'prose': return (
+      <section class="section"><div class="shell"><div class="prose-site" set:html={s.html}></div></div></section>
+    );
+    case 'posts': return (
+      <section class="pb-section pt-block">
+        <div class="shell">
+          <ul class="mb-block flex flex-wrap gap-2">
+            {categories.map((c) => <li><a href={`/category/${c.slug}/`} class="btn btn-quiet">{c.name}</a></li>)}
+          </ul>
+          <div class="grid gap-x-6 gap-y-14 md:grid-cols-2 lg:grid-cols-3">{cards.map((c, i) => <PostCard card={c} wide={i === 0} />)}</div>
+        </div>
+      </section>
+    );
+    case 'jobs': return (
+      <section class="section">
+        <div class="shell grid gap-12 lg:grid-cols-12">
+          <div class="lg:col-span-4">
+            <div class="lg:sticky lg:top-28">
+              <h2 data-lines class="text-heading">{s.title}</h2>
+              <p data-reveal class="mt-6 text-muted">{s.intro}</p>
+            </div>
+          </div>
+          <div class="lg:col-span-7 lg:col-start-6">
+            <h3 data-reveal class="label mb-5 text-accent-text">{s.positionsTitle}</h3>
+            <div class="border-t border-line">
+              {jobs.map((j) => (
+                <details class="group border-b border-line" id={j.id.replace(/\s+/g, '')}>
+                  <summary class="flex cursor-pointer list-none items-baseline justify-between gap-6 py-5">
+                    <span class="serif text-title">{j.fields.Position}</span>
+                    <span class="label shrink-0 text-muted group-open:text-accent-text">JOB ID: {j.id}</span>
+                  </summary>
+                  <div class="pb-8">
+                    <p class="label text-accent-text">Job Synopsis:</p>
+                    <dl class="mt-4 grid gap-2 text-small sm:grid-cols-4">
+                      {Object.entries(j.fields).map(([k, v]) => (<>
+                        <dt class="text-muted">{k}:</dt>
+                        <dd class="sm:col-span-3">{v}</dd>
+                      </>))}
+                    </dl>
+                    {j.sections.map((sec) => (
+                      <div class="mt-6">
+                        <p class="label text-accent-text">{sec.title}:</p>
+                        <ul class="mt-3 list-disc space-y-1 pl-5 text-small marker:text-accent-text">{sec.items.map((i) => <li>{i}</li>)}</ul>
+                      </div>
+                    ))}
+                    {j.apply && <a href={j.apply.href} class="btn mt-8">{j.apply.text}<Arrow /></a>}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+    case 'gallery': return (
+      <section class="pb-section pt-block">
+        <div class="shell">
+          {groups.map((g) => (
+            <div class="mb-section last:mb-0">
+              <h2 data-lines class="border-b border-line pb-4 text-page">{g.year}</h2>
+              {g.names.length > 0 && <ul class="mt-6 flex flex-wrap gap-2">{g.names.map((n) => <li class="label rounded-full border border-line px-4 py-2 text-muted">{n}</li>)}</ul>}
+              {g.albums.map((a) => {
+                albumIndex++;
+                const photos = a.images.map((u) => mediaByUrl(u)).filter((m) => !!m);
+                const shown = photos.slice(0, 8);
+                const extra = photos.length - shown.length;
+                return (
+                  <div data-album={a.title} data-images={JSON.stringify(photos.map((m) => m.src))} class="mt-block">
+                    <div class="mb-5 flex items-baseline justify-between gap-6">
+                      <h3 data-lines class="text-heading">{a.title}</h3>
+                      <span class="label shrink-0 text-muted">{photos.length}</span>
+                    </div>
+                    <div class:list={['bento', albumIndex % 2 === 0 && 'bento-flip']}>
+                      {shown.map((m, i) => (
+                        <div data-rise class="rounded-md">
+                          <button type="button" data-open={i} aria-label={`${a.title} ${i + 1}`} class="tile">
+                            <img src={thumbOf(m)} alt="" loading="lazy" decoding="async" />
+                            {i === shown.length - 1 && extra > 0 && <span class="tile-more">+{extra}</span>}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+        <Viewer />
+      </section>
+    );
+    case 'contact': return (
+      <section class="pb-section pt-block">
+        <div class="shell grid gap-12 lg:grid-cols-12">
+          <div class="lg:col-span-7">
+            <div class="space-y-5">
+              {s.intro.map((p, i) => <p data-reveal class:list={[i === 2 ? 'text-lead' : 'text-muted']}>{p}</p>)}
+            </div>
+            <div class="mt-10 border-t border-line pt-8"><ContactForm /></div>
+          </div>
+          <div class="space-y-10 lg:col-span-4 lg:col-start-9">
+            <h2 data-lines class="text-heading">{site.name}</h2>
+            {[contact.sales, contact.dev].map((o) => (
+              <div data-reveal>
+                <h3 class="label text-accent-text">{o.title}</h3>
+                <p class="mt-3">{o.address}</p>
+                <a href={`tel:${o.tel}`} class="mt-1 block underline decoration-accent underline-offset-4">{o.phone}</a>
+              </div>
+            ))}
+            <p data-reveal class="text-small text-muted">{contact.hours}</p>
+            <div data-reveal>
+              <h3 class="label text-accent-text">{contact.enquiries.title}</h3>
+              {contact.enquiries.lines.map((l) => <p class="mt-3">{l.label} <a href={`mailto:${l.email}`} class="underline decoration-accent underline-offset-4">{l.email}</a></p>)}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+})}

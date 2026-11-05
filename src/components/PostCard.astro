@@ -1,0 +1,13 @@
+---
+import { newTab } from '../lib/links';
+import Img from './Img.astro';
+import type { Card } from '../lib/posts';
+const { card, wide } = Astro.props as { card: Card; wide?: boolean };
+---
+<a href={card.href} {...newTab(card.href)} class:list={['zoom group block', wide && 'md:col-span-2']} data-reveal>
+  <div class:list={['photo', wide ? 'aspect-video' : 'aspect-4/3']}>
+    {card.image && <Img media={card.image} />}
+  </div>
+  <p class="label mt-4 text-muted">{card.date}</p>
+  <h3 class="mt-1.5 text-title transition-colors group-hover:text-accent-text">{card.title}</h3>
+</a>
