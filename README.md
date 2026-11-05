@@ -18,12 +18,12 @@ Everything visual lives in **`src/styles/tokens.css`**: colors, fonts, type scal
 | Fonts | the `@import` lines and `--font-display`, `--font-body` |
 | All spacing at once | `--spacing` (the base of every `p-*`, `m-*`, `gap-*`) |
 | Space between sections / page margins | `--spacing-section`, `--spacing-gutter` |
-| Navbar height and width | `--spacing-nav`, `--spacing-nav-scrolled`, `--container-navbar` |
+| Navbar height and width | `--spacing-nav`, `--container-navbar` |
 | Text sizes | `--text-display`, `--text-heading`, `--text-body` and the rest |
 | Rounded corners | `--radius-sm`, `--radius-md`, `--radius-lg` |
 | Machine-vision effect | `--vision-edge`, `--vision-lens`, `--vision-sweep-seconds`, `--vision-grain` |
-| Hero scan surface | `--color-wave`, `--wave-points`, `--wave-point-size`, `--wave-scan-seconds` |
-| Life at VisAI photo wall and mosaic | `--wall-seconds`, `--spacing-tile` |
+| Hero film timing | `--film-hold-seconds`, `--film-fade-seconds`, `--film-push` |
+| Life at VisAI mosaic | `--spacing-tile` |
 | 3D scan detail | `--scan-points`, `--scan-points-phone`, `--color-point` |
 
 Tinted and dark blocks are the `.theme-sand` and `.theme-dark` classes at the bottom of the same file.
@@ -44,14 +44,13 @@ Tinted and dark blocks are the `.theme-sand` and `.theme-dark` classes at the bo
 
 - `src/components/Header.astro` and `src/scripts/nav.ts`: the navbar, its reshaping dropdown and the full-screen menu.
 
-- `src/components/Hero.astro` and `src/scripts/hero.ts`: the opening of every page. A 3D scan surface (`src/three/wave.ts`) moves behind the headline, with the page's photo as a card.
+- `src/components/Hero.astro` and `src/scripts/hero.ts`: the opening of every page. Each page lists its photos as `shots` in `src/data/pages.ts`; the photos are in `public/media/hero/`. To use real video later, replace the film in `Hero.astro` with a muted, looping `<video>`.
 - `src/scripts/viewer.ts`: the full-screen photo viewer on Life at VisAI.
 - `src/lib/links.ts`: vmeasure.ai and vaudit.ai links open in a new tab; all other links stay in the same tab.
 
 ## WebGL effects (`src/three/`)
 
 - `vision.ts`: real photos seen as a machine sees them, with a scan line and mouse lens.
-- `wave.ts`: the 3D scan surface behind every hero.
 - `flight.ts`: the homepage flight through photographs in 3D. Photo list is in `src/pages/index.astro`.
 - `scan.ts`: the LiDAR-style point cloud of a pallet.
 - `contour.ts`: the moving contour field in the footer.

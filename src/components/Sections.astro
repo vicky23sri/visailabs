@@ -23,15 +23,12 @@ for (const a of galleryRaw as Album[]) {
   else if (a.images.length && groups.length) groups.at(-1)!.albums.push(a);
   else if (groups.length && !a.title.startsWith('A glimpse')) groups.at(-1)!.names.push(a.title);
 }
-// A spread of photos across every album, for the moving wall.
-const everyPhoto = (galleryRaw as Album[]).flatMap((a) => a.images.filter((_, i) => i % 4 === 0));
-const wallPhotos = everyPhoto.map((u) => mediaByUrl(u)).filter((m) => !!m).map(thumbOf);
 let albumIndex = 0;
 const cols = { 2: 'md:grid-cols-2', 3: 'md:grid-cols-2 lg:grid-cols-3', 4: 'sm:grid-cols-2 lg:grid-cols-4' };
 ---
 {sections.map((s) => {
   switch (s.type) {
-    case 'hero': return <Hero eyebrow={s.eyebrow} title={s.title} lede={s.lede} action={s.action} image={s.image} wall={s.wall ? wallPhotos : undefined} />;
+    case 'hero': return <Hero eyebrow={s.eyebrow} title={s.title} lede={s.lede} action={s.action} shots={s.shots} />;
     case 'statement': return (
       <section class="section">
         <div class="shell grid gap-10 lg:grid-cols-12">

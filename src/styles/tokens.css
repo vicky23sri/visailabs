@@ -55,8 +55,6 @@
   --text-page--line-height: 0.92;
   --text-display: clamp(3.5rem, min(1.5rem + 9.2vw, 16.5svh), 12.5rem);
   --text-display--line-height: 0.88;
-  --text-hero: clamp(2.75rem, 1.5rem + 4.6vw, 6.75rem);
-  --text-hero--line-height: 0.95;
   --text-statement: clamp(2.25rem, 1.2rem + 4.2vw, 6rem);
   --text-statement--line-height: 1;
   --text-mega: clamp(5rem, 22.5vw, 34rem);
@@ -71,9 +69,8 @@
   --spacing-gutter: clamp(1.25rem, 3vw, 3rem);
   --spacing-section: clamp(6rem, 12vw, 13rem);
   --spacing-block: clamp(2.75rem, 5vw, 5.5rem);
-  --spacing-nav: 5rem; /* navbar height at the top of a page */
-  --spacing-nav-scrolled: 3.75rem; /* navbar height once condensed */
-  --spacing-nav-gap: 0.75rem; /* gap between the condensed navbar and the screen edge */
+  --spacing-nav: 3.75rem; /* navbar height */
+  --spacing-nav-gap: 0.75rem; /* gap between the navbar and the screen edge */
   --spacing-media: 72svh; /* tallest a post's cover image can be */
   --spacing-flight: 340svh; /* scroll length of the 3D photo flight */
   --spacing-solution: 88svh; /* scroll length of each solution */
@@ -91,7 +88,7 @@
   /* ---- LAYOUT ---------------------------------------------------------- */
   --container-page: 110rem;
   --container-prose: 44rem;
-  --container-navbar: 62rem; /* width of the condensed navbar */
+  --container-navbar: 62rem; /* width of the navbar */
 
   /* ---- CORNERS & SHADOW ------------------------------------------------ */
   --radius-sm: 0.5rem;
@@ -109,6 +106,11 @@
   --duration-slow: 1100ms;
   --duration-pulse: 2400ms; /* ring around the play button */
 
+  /* ---- HERO FILM: read by src/scripts/hero.ts --------------------------- */
+  --film-hold-seconds: 6.5; /* time on each photo */
+  --film-fade-seconds: 2; /* length of the dissolve between photos */
+  --film-push: 0.09; /* how far the camera moves in on each photo */
+
   /* ---- WEBGL: read by src/three/ --------------------------------------- */
   --color-vision-bg: #0a0c12; /* background of the machine-vision view */
   --color-point: #e8e6e0; /* points in the 3D LiDAR scan */
@@ -116,12 +118,6 @@
   --vision-lens: 170; /* size of the mouse lens, in pixels */
   --vision-sweep-seconds: 8; /* time between scan-line passes */
   --vision-grain: 0.05; /* film grain over photos */
-  --color-wave: var(--color-ink); /* points on the hero surface */
-  --wave-points: 56000; /* detail of the hero surface on desktop */
-  --wave-points-phone: 18000;
-  --wave-point-size: 1.5;
-  --wave-scan-seconds: 9; /* time for the scan line to cross the surface */
-  --wall-seconds: 70; /* speed of the moving photo wall */
   --scan-points: 130000; /* detail of the LiDAR scan on desktop */
   --scan-points-phone: 48000;
   --webgl-quality: 1.5; /* sharpness; lower it for faster rendering */

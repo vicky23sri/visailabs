@@ -11,7 +11,7 @@ const current = (href: string) => (href === path ? 'page' : undefined);
 const hasCurrent = (item: (typeof nav)[number]) => item.groups.some((g) => g.links.some((l) => l.href === path));
 const logos: Record<string, ReturnType<typeof media>> = { vMeasure: media('vMeasure-logo'), vAudit: media('vAudit-logo') };
 ---
-<header data-nav class="site-nav" data-scrolled="false">
+<header data-nav class="site-nav">
   <div data-nav-wrap class="nav-wrap">
     <div class="nav-bar">
       <a href="/" aria-label={site.name} class="block shrink-0">

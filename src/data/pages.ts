@@ -4,7 +4,7 @@
 export type Action = { label: string; href: string };
 export type Item = { title?: string; text?: string; image?: string; href?: string; action?: Action };
 export type Section =
-  | { type: 'hero'; eyebrow?: string; title: string; lede?: string; action?: Action; image: string; wall?: boolean }
+  | { type: 'hero'; eyebrow?: string; title: string; lede?: string; action?: Action; shots: string[] }
   | { type: 'split'; eyebrow?: string; title?: string; paragraphs: string[]; image?: string; flip?: boolean; statement?: boolean }
   | { type: 'statement'; eyebrow?: string; title?: string; text: string }
   | { type: 'features'; eyebrow?: string; title?: string; intro?: string; items: Item[]; numbered?: boolean; columns?: 2 | 3 | 4 }
@@ -64,7 +64,7 @@ const contactPage = (path: string): Page => ({
   title: 'Contact - Visai Labs',
   description: 'Feel free to contact us if you have any queries about our products. You can also schedule a call and get in touch with VisAI Labs if necessary.',
   sections: [
-    { type: 'hero', title: 'Get in touch', image: 'office-culture' },
+    { type: 'hero', title: 'Get in touch', shots: ['hall', 'mgmt', 'workshop'] },
     { type: 'contact', intro: contactIntro },
   ],
 });
@@ -75,7 +75,7 @@ export const pages: Page[] = [
     title: 'Enriching every vision sensor with actionable insights',
     description: 'At VisAI Labs, We intend to do so by pioneering computer vision and Edge AI research to design industry-specific applications.',
     sections: [
-      { type: 'hero', title: 'Who We Are', image: 'photo-for-website', lede: 'VisAI Labs is an India-based Edge AI + Computer Vision company that builds products and solutions where cameras/sensors capture visual data and software turns it into usable “machine-readable” outputs (like measurements, IDs, images/video evidence, and automated checks).' },
+      { type: 'hero', title: 'Who We Are', shots: ['team', 'garden', 'hall'], lede: 'VisAI Labs is an India-based Edge AI + Computer Vision company that builds products and solutions where cameras/sensors capture visual data and software turns it into usable “machine-readable” outputs (like measurements, IDs, images/video evidence, and automated checks).' },
       { type: 'split', image: 'Management-People', paragraphs: ['On their own sites, VisAI Labs positions vMeasure (automated dimensioning for warehouses) and vAudit (order/packing video logging tied to order IDs for proof) as part of that broader computer-vision-for-logistics product line.'] },
       { type: 'split', flip: true, title: 'Our Ethos', image: 'Engineering-people', paragraphs: [
         'VisAI Labs who at it’s core are a bunch of Greater fools.',
@@ -96,7 +96,7 @@ export const pages: Page[] = [
     title: 'VisAI Labs takes Computer Vision where no human has before',
     description: 'VisAI Labs helps build practical and real-world deployable Edge AI and Computer vision solutions to make your firm an AI native enterprise',
     sections: [
-      { type: 'hero', title: 'What brought us here', image: 'engineering-people' },
+      { type: 'hero', title: 'What brought us here', shots: ['workshop', 'hall', 'tech'] },
       { type: 'statement', title: 'VisAI Labs was created to deliver a promise that CV has been making to the world for 25+ years', text: 'Along with the increase in the computation power of processors in edge-devices. But the company needed a new dynamic team that could focus and deliver on the promise of revolutionizing day-to-day human life.' },
       helpCta,
     ],
@@ -106,7 +106,7 @@ export const pages: Page[] = [
     title: 'Enriching every vision sensor with actionable insights',
     description: 'At VisAI Labs, We intend to do so by pioneering computer vision and Edge AI research to design industry-specific applications.',
     sections: [
-      { type: 'hero', title: 'Enriching every vision sensor with intelligence and actionable insights', image: 'occlusion.' },
+      { type: 'hero', title: 'Enriching every vision sensor with intelligence and actionable insights', shots: ['street', 'crowd', 'tech'] },
       { type: 'statement', title: 'Our core objective', text: 'We, at VisAI Labs, want to transform the world with smart vision sensors powered by AI. We intend to do so by being at the forefront of Computer Vision and Edge AI-based research — geared towards building industry-specific applications.' },
       helpCta,
     ],
@@ -118,7 +118,7 @@ export const pages: Page[] = [
     title: 'Get end-to-end services for AI-based product development',
     description: 'Collaborate with VisAI Labs to address significant problems and leverage our cutting edge CV and AI-focused engagement methodology',
     sections: [
-      { type: 'hero', eyebrow: 'End-to-end, streamlined services', title: 'Complete vision and AI-based edge product development', image: 'group-people-working' },
+      { type: 'hero', eyebrow: 'End-to-end, streamlined services', title: 'Complete vision and AI-based edge product development', shots: ['meet', 'workshop', 'cam'] },
       { type: 'features', numbered: true, columns: 3, title: 'Why do customers engage with VisAI Labs?', intro: 'Customers engage with VisAI Labs to solve these major problems and leverage our highly-advanced CV and edge AI-focused engagement methodology.', items: [
         { title: 'Add CV and AI capability to existing products' },
         { title: 'Build a new product in a streamlined manner' },
@@ -133,7 +133,7 @@ export const pages: Page[] = [
     title: 'Edge AI and Computer Vision Product Development Experts- Overview',
     description: "Design, Build, and Deploy Edge AI and Computer vision solutions using VIsAI Lab's expertise across Nvidia Jetson/Deepstream, Intel Movidius and OpenCV Platforms",
     sections: [
-      { type: 'hero', title: 'Design, Build, and Deploy Edge AI Solutions', lede: 'Achieve faster GTM for your edge-based product with VisAI Labs’ Algo Accelerators for Face, People and Vehicle Detection', action: { label: 'Contact Us', href: contact }, image: 'automating-queue-management' },
+      { type: 'hero', title: 'Design, Build, and Deploy Edge AI Solutions', lede: 'Achieve faster GTM for your edge-based product with VisAI Labs’ Algo Accelerators for Face, People and Vehicle Detection', action: { label: 'Contact Us', href: contact }, shots: ['crowd', 'street', 'motp'] },
       { type: 'features', numbered: true, title: 'What we offer – Edge AI and CV services', columns: 4, items: [
         { title: 'Identification of the right camera and edge processor' },
         { title: 'AI and Computer Vision algorithm development' },
@@ -149,7 +149,7 @@ export const pages: Page[] = [
     title: 'Edge AI - Face Tracking,Detection, and Recognition solutions on Nvidia Jetson/Deepstream Platform',
     description: 'Edge-based Algorithms for Gender, Age Range & emotion recognition with Face FoV built for Nvidia Jetson/ Deepstream Platform',
     sections: [
-      { type: 'hero', title: 'Edge AI Face Tracking,Detection, and Recognition solutions', lede: 'Plugin with Nvidia DeepStream SDK – tunable to major use cases', action: { label: 'Request free trial', href: trial }, image: 'safety-monitoring-face-detection' },
+      { type: 'hero', title: 'Edge AI Face Tracking,Detection, and Recognition solutions', lede: 'Plugin with Nvidia DeepStream SDK – tunable to major use cases', action: { label: 'Request free trial', href: trial }, shots: ['mine', 'crowd', 'cctv'] },
       { type: 'statement', title: 'VisAI Platform – Face Algo Accelerators', text: 'At VisAI Labs, we provide the ultimate trifecta for successful AI solution creation and adoption.' },
       why,
       problem('face tracking, detection, and recognition'),
@@ -160,7 +160,7 @@ export const pages: Page[] = [
     title: 'Edge AI - People Tracking, Detection and Recognition solutions on Nvidia Jetson/Deepstream Platform',
     description: 'Edge-based Algorithms for Gender, Age Range & emotion recognition with People FoV built for Nvidia Jetson/ Deepstream Platform',
     sections: [
-      { type: 'hero', eyebrow: 'VisAI Platform – People Algo Accelerators', title: 'Edge AI People Tracking, Detection and Recognition solutions', lede: 'Plugin with Nvidia DeepStream SDK – tunable to major use cases', action: { label: 'Request Free Trail', href: trial }, image: 'people-detection-with-bounding-box' },
+      { type: 'hero', eyebrow: 'VisAI Platform – People Algo Accelerators', title: 'Edge AI People Tracking, Detection and Recognition solutions', lede: 'Plugin with Nvidia DeepStream SDK – tunable to major use cases', action: { label: 'Request Free Trail', href: trial }, shots: ['crowd', 'motp', 'street'] },
       why,
       { type: 'videos', title: 'Watch Vehicle Algo Demo', ids: ['ABt5INrT9jg', 'T_l4YKhS61c', 'Y-MhfL8p71E', 'fK0RJ_pO7TI'] },
       problem('people tracking, detection, and recognition'),
@@ -171,7 +171,7 @@ export const pages: Page[] = [
     title: 'Edge AI - Vehicle Tracking, Detection and Recognition solutions on Nvidia Jetson/Deepstream Platform',
     description: 'Edge based Algorithms for Vehicle line cross counting, Wrong Lane Watch, Average speed and License Plate recognition built for Nvidia Jetson/Deepstream Platform',
     sections: [
-      { type: 'hero', eyebrow: 'VisAI Platform – Vehicle Algo Accelerators', title: 'Edge AI Vehicle Tracking, Detection and Recognition solutions', lede: 'Plugin with Nvidia DeepStream SDK – tunable to major use cases', action: { label: 'Request free trial', href: trial }, image: 'automating-parking-registration' },
+      { type: 'hero', eyebrow: 'VisAI Platform – Vehicle Algo Accelerators', title: 'Edge AI Vehicle Tracking, Detection and Recognition solutions', lede: 'Plugin with Nvidia DeepStream SDK – tunable to major use cases', action: { label: 'Request free trial', href: trial }, shots: ['container', 'street', 'aisle'] },
       why,
       { type: 'videos', title: 'Watch Vehicle Algo Demo', ids: ['KH27tXA_gWI', 'bUBWjr3x6K0', 'fMyxcpZ0qew'] },
       problem('vehicle tracking, detection, and recognition'),
@@ -182,7 +182,7 @@ export const pages: Page[] = [
     title: 'Accelerate go-to-market with Ready to Deploy PoC kits',
     description: 'Ready to deploy Nvidia Jeston Kits and e-con cameras for building computer vision use cases for indoor and outdoor environments',
     sections: [
-      { type: 'hero', title: 'Accelerate go-to-market with Ready to Deploy PoC kits', lede: 'Reduce your PoC development time more than ever before.', image: 'sturdecam_1' },
+      { type: 'hero', title: 'Accelerate go-to-market with Ready to Deploy PoC kits', lede: 'Reduce your PoC development time more than ever before.', shots: ['cam', 'cam20', 'cam30'] },
       { type: 'features', title: 'Start using ready to deploy PoC kits', columns: 4, items: [
         { image: 'e-cam30_cunano', text: 'Nvidia Carrier Boards' },
         { image: 'sturdecam_1', text: 'Ready to Deploy embedded cameras' },
@@ -216,7 +216,7 @@ export const pages: Page[] = [
     title: 'Automated Dimensioning solution for Inbound and Outbound Logistics',
     description: 'Automated dimensioning systems are used in Inbound and outbound automation esp. in warehouses to make parcel measuring easier',
     sections: [
-      { type: 'hero', title: 'Intralogistics Automation Specialists', lede: 'Optimize the flow of goods and information faster with vMeasure', image: 'ith-agv-robotic-arm' },
+      { type: 'hero', title: 'Intralogistics Automation Specialists', lede: 'Optimize the flow of goods and information faster with vMeasure', shots: ['agv', 'conveyor', 'aisle'] },
       { type: 'features', title: 'How does vMeasure help intralogistics automation experts?', columns: 2, items: [
         { title: 'Take a zero-compromise stance on speed', text: 'Ensure rapid flow of goods with quick dimensioning capabilities.' },
         { title: 'Maximize your technology ROI', text: 'Integrate automated dimensioning solutions with low-maintenance needs.' },
@@ -236,7 +236,7 @@ export const pages: Page[] = [
     title: 'Build and deliver next-gen warehousing solutions',
     description: "Logistics solution providers integrate vMeasure Automated dimensioning system into their solution architecture because of it's easy interfacability and AI prowess.",
     sections: [
-      { type: 'hero', title: 'Logistics and Supply Chain Solution Providers', lede: 'Revolutionize your warehouses – with top-notch process consultancy, software recommendation, and implementation', image: 'container-streming' },
+      { type: 'hero', title: 'Logistics and Supply Chain Solution Providers', lede: 'Revolutionize your warehouses – with top-notch process consultancy, software recommendation, and implementation', shots: ['aisle', 'container', 'racks'] },
       { type: 'features', title: 'How does vMeasure help logistics and supply chain solution providers?', columns: 3, items: [
         { title: 'Get technological know-how - with computer vision and edge-AI for warehouses' },
         { title: 'Leverage the pre-built edge-AI optimized ML and computer vision algorithms' },
@@ -258,7 +258,7 @@ export const pages: Page[] = [
     title: 'vMeasure Solution Design Services- Automated Dimensioning system',
     description: 'Build customized automated dimensioning systems focused on your need and use case to measure parcels in your warehouse instantly',
     sections: [
-      { type: 'hero', title: 'vMeasure Solution Design & Integration Services', lede: 'Customize your own automated dimensioning solution', action: { label: 'Contact us now', href: quote }, image: 'pallet-dimension' },
+      { type: 'hero', title: 'vMeasure Solution Design & Integration Services', lede: 'Customize your own automated dimensioning solution', action: { label: 'Contact us now', href: quote }, shots: ['pallet', 'scale', 'agv'] },
       { type: 'statement', title: 'Solution Design Services', text: 'vMeasure dimensioning solutions, created by VisAI Labs, is a complete end-to-end hardware and software suite capable of handling all major dimensioning needs. With over 20+ years of experience, we understand that each customer is unique and that there is no one-size-fits-all approach to innovation.' },
       { type: 'features', columns: 3, items: [
         { title: 'Custom solution design', text: 'Space constraints, unique environmental conditions, or specific performance asks. VisAI Labs has a team of engineers and to help you build the right solution design' },
@@ -281,7 +281,7 @@ export const pages: Page[] = [
     title: 'vMeasure AI-Enabled - Automated Parcel Dimensioning systems',
     description: 'vMeasure AI-enabled Dimensioning Add-ons for Automated dimensioning systems enabling open/broken box detection and backage optimization',
     sections: [
-      { type: 'hero', eyebrow: 'AI Enablement', title: 'vMeasure AI-enabled Dimensioning Add-ons', lede: 'Adding intelligence is the next evolutionary step in automated dimensioning – vMeasure Intelligent SDKs are the initiators and forerunners of this evolution', image: 'ecommer_gamechanger' },
+      { type: 'hero', eyebrow: 'AI Enablement', title: 'vMeasure AI-enabled Dimensioning Add-ons', lede: 'Adding intelligence is the next evolutionary step in automated dimensioning – vMeasure Intelligent SDKs are the initiators and forerunners of this evolution', shots: ['scale', 'cart', 'pallet'] },
       { type: 'features', title: 'The next big thing in automated dimensioning for warehouses', columns: 3, items: [
         { title: 'Massive upsurge in e-commerce orders' },
         { title: 'Direct freight movement from the warehouse to the end-customer' },
@@ -300,7 +300,7 @@ export const pages: Page[] = [
     title: 'Integrate intelligence with any type of warehouse solution',
     description: 'vMeasure Automated Dimensioning range of solutions can integrate with conveyors, forklifts, barcode scanners and all major ERP/WMS systems',
     sections: [
-      { type: 'hero', title: 'vMeasure Dimension Integration Services', lede: 'Integrate intelligence with all your major warehouse hardware and software solutions', action: { label: 'Contact us now', href: quote }, image: 'interior-warehouse-logistic' },
+      { type: 'hero', title: 'vMeasure Dimension Integration Services', lede: 'Integrate intelligence with all your major warehouse hardware and software solutions', action: { label: 'Contact us now', href: quote }, shots: ['conveyor', 'agv', 'pallet'] },
       { type: 'heading', title: 'vMeasure offers a multitude of integration services for the vMeasure dimensioning product and solution suite.' },
       { type: 'split', title: 'Conveyor belts', image: 'shutterstock_1468587050', paragraphs: ['vMeasure products can be integrated with in-motion systems.', 'Easily mountable at all major angles', '<1 second dimensioning allows for fast dimensioning', 'No manual oversight as automatic triggering for dimensioning occurs', 'AI-enabled dimensioning add-ons for faster processing of parcels'] },
       { type: 'split', flip: true, title: 'Weighing scales', image: 'shutterstock_1624560235', paragraphs: ['Integrate seamlessly, without change to structural integrity of the weighing scale', 'Both static and dynamic weighing', 'AI-enabled dimensioning add-ons for faster processing of parcels'] },
@@ -314,7 +314,7 @@ export const pages: Page[] = [
     title: 'Enriching every vision sensor with actionable insights',
     description: 'At VisAI Labs, We intend to do so by pioneering computer vision and Edge AI research to design industry-specific applications.',
     sections: [
-      { type: 'hero', eyebrow: 'Careers', title: 'Build the next-gen tech with us!', image: 'management-people' },
+      { type: 'hero', eyebrow: 'Careers', title: 'Build the next-gen tech with us!', shots: ['mgmt', 'audience', 'game'] },
       { type: 'jobs', title: 'Careers', positionsTitle: 'Positions and Eligibility:', intro: 'We at VisAI Labs are geared towards bracing up the challenges in product development and relish in devising innovative techniques to overcome the wide spectrum of challenges within a set of constraints. Our passion towards product development and pursuit of excellence in engineering has created a unique place for visAI in our industry!!! If you have the same passion and dreaming of bringing in your own product to the market place, apply for the suitable position.' },
     ],
   },
@@ -323,7 +323,7 @@ export const pages: Page[] = [
     title: 'Enriching every vision sensor with actionable insights',
     description: 'At VisAI Labs, We intend to do so by pioneering computer vision and Edge AI research to design industry-specific applications.',
     sections: [
-      { type: 'hero', title: 'Personnel Playdays', image: '5-min', wall: true },
+      { type: 'hero', title: 'Personnel Playdays', shots: ['garden', 'team', 'cricket'] },
       { type: 'gallery' },
       { type: 'videos', title: 'A glimpse of our exciting work life!', ids: ['3r9ioprPsx4', '6CKinNXXZ7I', 'hbGDb7kxoWA', 'zz9K1zHBNg8'] },
     ],
@@ -332,24 +332,24 @@ export const pages: Page[] = [
     path: 'whitepapers',
     title: 'Welcome to a new world of Edge AI and Computer Vision-Whitepaper',
     description: 'Through the VisAI Labs Whitepaper, we build and help companies to construct deployable Edge-AI based computer vision solutions.',
-    sections: [{ type: 'hero', title: 'Whitepapers', image: 'warehouse-process' }, helpCta],
+    sections: [{ type: 'hero', title: 'Whitepapers', shots: ['process', 'racks', 'tech'] }, helpCta],
   },
   {
     path: 'podcasts',
     title: 'unravelling computer vision and edge-ai for the real world-Podcast',
     description: 'In this podcast series of unravelling computer vision and Edge AI for the real world, we will discuss solving the use cases of Edge-based computer vision solutions.',
-    sections: [{ type: 'hero', eyebrow: 'Edge AI and Computer Vision', title: 'Podcasts', image: 'mining.' }, helpCta],
+    sections: [{ type: 'hero', eyebrow: 'Edge AI and Computer Vision', title: 'Podcasts', shots: ['tech', 'process', 'hall'] }, helpCta],
   },
   {
     path: 'webinar',
     title: 'Edge AI and Computer Vision Product Development Experts- Webinar',
     description: 'Through the VisAI Labs webinar, we build and help companies construct deployable Edge-based computer vision solutions.',
-    sections: [{ type: 'hero', eyebrow: 'On-Demand Webinars', title: 'Webinar', image: 'motp.' }, helpCta],
+    sections: [{ type: 'hero', eyebrow: 'On-Demand Webinars', title: 'Webinar', shots: ['meet', 'audience', 'process'] }, helpCta],
   },
   {
     path: 'blog',
     title: 'Blog - Visai labs',
     description: 'Find out blogs on automate parcel dimensioning system, people/human detection solution based on a real-time use cases.',
-    sections: [{ type: 'hero', title: 'VisAI Blog', image: 'warehouse-industry' }, { type: 'posts' }, helpCta],
+    sections: [{ type: 'hero', title: 'VisAI Blog', shots: ['racks', 'cart', 'process'] }, { type: 'posts' }, helpCta],
   },
 ];

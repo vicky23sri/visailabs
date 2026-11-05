@@ -13,7 +13,7 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow-x: clip;
-    scroll-padding-top: calc(var(--spacing-nav-scrolled) + var(--spacing-block));
+    scroll-padding-top: calc(var(--spacing-nav) + var(--spacing-block));
   }
   body {
     font-size: var(--text-body);
@@ -114,24 +114,65 @@
     transform: scale(1.035);
   }
 
-  /* Life at VisAI hero: a tilted wall of real photos, always moving. */
-  .wall {
+  /* Hero film: full-screen photos that move and dissolve. */
+  .film {
     position: absolute;
-    inset: -35% -30%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: calc(var(--spacing) * 2);
-    transform: perspective(60rem) rotateX(18deg) rotateZ(-9deg);
+    inset: -8% 0 -8% 0;
+    overflow: hidden;
+    isolation: isolate;
+    will-change: transform;
   }
-  .wall-col > div {
-    display: grid;
-  }
-  .wall img {
+  .film-shot {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    aspect-ratio: 4 / 3;
+    height: 100%;
+    max-width: none;
     object-fit: cover;
-    border-radius: var(--radius-sm);
-    margin-bottom: calc(var(--spacing) * 2);
+    opacity: 0;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+  .film-shot[data-first] {
+    opacity: 1;
+  }
+  /* Shadow only where the words sit, so the picture stays bright. */
+  .film::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    background:
+      linear-gradient(to top, color-mix(in srgb, var(--color-ink) 90%, transparent) 0%, color-mix(in srgb, var(--color-ink) 64%, transparent) 38%, transparent 76%),
+      linear-gradient(to right, color-mix(in srgb, var(--color-ink) 40%, transparent) 0%, transparent 60%);
+  }
+  .film-bars {
+    display: none;
+    position: absolute;
+    right: var(--spacing-gutter);
+    bottom: calc(var(--spacing) * 8);
+    gap: calc(var(--spacing) * 1.5);
+  }
+  @media (min-width: 48rem) {
+    .film-bars {
+      display: flex;
+    }
+  }
+  .film-bars span {
+    display: block;
+    width: calc(var(--spacing) * 10);
+    height: 2px;
+    overflow: hidden;
+    background-color: color-mix(in srgb, var(--color-white) 30%, transparent);
+  }
+  .film-bars i {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-white);
+    transform: scaleX(0);
+    transform-origin: left;
   }
 
   /* Gallery mosaic: one large photo, then a rhythm of wide and small tiles. */
@@ -356,7 +397,7 @@
     box-shadow: inset 0 0 0 2px var(--color-fg);
   }
 
-  /* Navbar: open at the top of a page, a floating glass bar once scrolled. */
+  /* Navbar: a floating glass bar, readable over any photo. */
   .site-nav {
     position: fixed;
     inset: 0 0 auto 0;
@@ -368,10 +409,9 @@
   .nav-wrap {
     position: relative;
     margin-inline: auto;
-    margin-top: 0;
-    max-width: var(--container-page);
+    margin-top: var(--spacing-nav-gap);
+    max-width: var(--container-navbar);
     pointer-events: auto;
-    transition: max-width var(--duration-morph) var(--ease-smooth), margin-top var(--duration-morph) var(--ease-smooth);
   }
   .nav-bar {
     position: relative;
@@ -381,22 +421,12 @@
     justify-content: space-between;
     gap: calc(var(--spacing) * 4);
     height: var(--spacing-nav);
-    padding-inline: calc(var(--spacing-gutter) - var(--spacing-nav-gap));
-    border-radius: var(--radius-full);
-    box-shadow: inset 0 0 0 1px transparent;
-    transition: height var(--duration-morph) var(--ease-smooth), padding var(--duration-morph) var(--ease-smooth),
-      background-color var(--duration-morph), box-shadow var(--duration-morph);
-  }
-  .site-nav[data-scrolled='true'] .nav-wrap {
-    max-width: var(--container-navbar);
-    margin-top: var(--spacing-nav-gap);
-  }
-  .site-nav[data-scrolled='true'] .nav-bar {
-    height: var(--spacing-nav-scrolled);
     padding-inline: calc(var(--spacing) * 5) calc(var(--spacing) * 2);
-    background-color: color-mix(in srgb, var(--color-white) 78%, transparent);
+    border-radius: var(--radius-full);
+    background-color: color-mix(in srgb, var(--color-white) 88%, transparent);
     backdrop-filter: blur(1.25rem) saturate(1.5);
     box-shadow: inset 0 0 0 1px var(--color-line), var(--shadow-nav);
+    transition: background-color var(--duration-morph), box-shadow var(--duration-morph);
   }
   .site-nav[data-menu='true'] .nav-bar {
     background-color: transparent;
@@ -404,12 +434,8 @@
     box-shadow: none;
   }
   .nav-logo {
-    height: calc(var(--spacing) * 9);
-    width: auto;
-    transition: height var(--duration-morph) var(--ease-smooth);
-  }
-  .site-nav[data-scrolled='true'] .nav-logo {
     height: calc(var(--spacing) * 7.5);
+    width: auto;
   }
 
   .nav-links,
@@ -619,8 +645,8 @@
   .burger {
     position: relative;
     flex: none;
-    width: calc(var(--spacing) * 11);
-    height: calc(var(--spacing) * 11);
+    width: calc(var(--spacing) * 10);
+    height: calc(var(--spacing) * 10);
     cursor: pointer;
     border-radius: var(--radius-full);
     background-color: var(--color-ink);
@@ -656,12 +682,12 @@
     z-index: 45;
     background-color: var(--color-white);
     color: var(--color-ink);
-    clip-path: circle(0 at calc(100% - 3rem) 2.5rem);
+    clip-path: circle(0 at calc(100% - 2.75rem) 2.625rem);
     visibility: hidden;
     transition: clip-path var(--duration-slow) var(--ease-smooth), visibility 0s linear var(--duration-slow);
   }
   .sheet[data-open='true'] {
-    clip-path: circle(150% at calc(100% - 3rem) 2.5rem);
+    clip-path: circle(150% at calc(100% - 2.75rem) 2.625rem);
     visibility: visible;
     transition: clip-path var(--duration-slow) var(--ease-smooth), visibility 0s;
   }
@@ -676,7 +702,7 @@
     height: 100%;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: calc(var(--spacing-nav) + var(--spacing) * 3) var(--spacing-gutter) calc(var(--spacing) * 6);
+    padding: calc(var(--spacing-nav) + var(--spacing) * 6) var(--spacing-gutter) calc(var(--spacing) * 6);
   }
   .sheet-row,
   .sheet-foot {
@@ -748,17 +774,6 @@
   }
   .sheet-foot {
     padding-top: calc(var(--spacing) * 7);
-  }
-
-  /* The scan surface behind each hero, fading out before the next section. */
-  .wave {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity var(--duration-slow);
-    mask-image: linear-gradient(to bottom, black 62%, transparent);
   }
 
   /* Homepage solutions: the visual for the active step. */
@@ -881,6 +896,9 @@ html:not(.anim) [data-track-wrap] {
 }
 
 /* Start states only apply once JS has confirmed it can animate them. */
+.anim .film-shot[data-first] {
+  opacity: 0;
+}
 .anim [data-reveal] {
   opacity: 0;
   transform: translateY(calc(var(--spacing) * 5));

@@ -1,12 +1,11 @@
-// Navbar: a bar that condenses on scroll, one dropdown that reshapes itself
-// between menus on large screens, and a full-screen sheet on small ones.
+// Navbar: one dropdown that reshapes itself between menus on large screens,
+// and a full-screen sheet on small ones.
 const header = document.querySelector<HTMLElement>('[data-nav]');
 const lenis = () => (window as unknown as { __lenis?: { stop(): void; start(): void } }).__lenis;
 
 if (header) {
   let lastCloseY = scrollY;
   const onScroll = () => {
-    header.dataset.scrolled = String(scrollY > 40);
     if (Math.abs(scrollY - lastCloseY) > 40) closeDrop();
   };
   addEventListener('scroll', onScroll, { passive: true });

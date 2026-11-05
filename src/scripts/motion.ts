@@ -10,12 +10,10 @@ const slow = parseFloat(getComputedStyle(document.documentElement).getPropertyVa
 
 // WebGL loads separately, so words and photos always appear first.
 const webgl = () => {
-  import('./hero').then((m) => m.startHeroes());
+  import('./hero').then((m) => m.startHeroes()).catch(() => document.documentElement.classList.remove('anim'));
   if (document.querySelector('[data-album]')) import('./viewer').then((m) => m.startViewer());
   const vision = document.querySelectorAll<HTMLElement>('[data-vision]');
   if (vision.length) import('../three/vision').then((m) => vision.forEach((v) => m.startVision(v)));
-  const wave = document.querySelector<HTMLCanvasElement>('[data-wave]');
-  if (wave) import('../three/wave').then((m) => m.startWave(wave));
   const flight = document.querySelector<HTMLElement>('[data-flight]');
   if (flight) import('../three/flight').then((m) => m.startFlight(flight));
   const scan = document.querySelector<HTMLCanvasElement>('[data-scan]');
