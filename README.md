@@ -1,6 +1,6 @@
 # VisAI Labs website
 
-A redesign built with Astro, Tailwind CSS v4 and Three.js. All wording and images come from visailabs.com.
+A redesign built with Astro, Tailwind CSS v4, React + Framer Motion (navbar and homepage hero) and Three.js. All wording and images come from visailabs.com.
 
     npm install
     npm run dev            # http://localhost:4321
@@ -18,7 +18,9 @@ Everything visual lives in **`src/styles/tokens.css`**: colors, fonts, type scal
 | Fonts | the `@import` lines and `--font-display`, `--font-body` |
 | All spacing at once | `--spacing` (the base of every `p-*`, `m-*`, `gap-*`) |
 | Space between sections / page margins | `--spacing-section`, `--spacing-gutter` |
-| Navbar height and width | `--spacing-nav`, `--container-navbar` |
+| Navbar height, mega-menu width | `--spacing-nav-top`, `--spacing-nav`, `--container-mega` |
+| Navbar and homepage hero colors | `--color-night`, `--color-scan`, `--color-measure`, `--color-ok` |
+| Homepage headline size and reveal timing | `--text-hero`, `--text-hero-wide`, `--duration-reveal`, `--stagger-reveal` |
 | Text sizes | `--text-display`, `--text-heading`, `--text-body` and the rest |
 | Rounded corners | `--radius-sm`, `--radius-md`, `--radius-lg` |
 | Machine-vision effect | `--vision-edge`, `--vision-lens`, `--vision-sweep-seconds`, `--vision-grain` |
@@ -42,16 +44,21 @@ Tinted and dark blocks are the `.theme-sand` and `.theme-dark` classes at the bo
 
 ## Navbar, heroes and gallery
 
-- `src/components/Header.astro` and `src/scripts/nav.ts`: the navbar, its reshaping dropdown and the full-screen menu.
-
-- `src/components/Hero.astro` and `src/scripts/hero.ts`: the opening of every page. Each page lists its photos as `shots` in `src/data/pages.ts`; the photos are in `public/media/hero/`. To use real video later, replace the film in `Hero.astro` with a muted, looping `<video>`.
+- `src/components/react/Navbar.tsx` and `MegaMenu.tsx`: the navbar, Products menu and phone menu. Links and wording are `navbar` in `src/data/site.ts`.
+- `src/components/react/Hero.tsx`: the homepage hero. Wording is `homeHero` in `src/data/site.ts`.
+- `src/components/WhoWeAre.astro`, `src/scripts/who.ts`, `src/styles/who.css`: the homepage Who we are section. Wording, photos and spec rows are in the component; pacing and frame shapes are in the script.
+- `src/three/hero/`: the hero's 3D scene. `scene.ts` has the camera and look settings at the top, `timeline.ts` the timing, `shaders.ts` the laser and point cloud, `textures.ts` the painted surfaces. It lowers its own quality if a device cannot keep up.
+- `src/data/scan.ts`: parcel sizes, order numbers and the capture chip text.
+- `src/components/react/Scan3D.tsx`: loads the 3D scene and holds the page text placed over it.
+- `src/components/react/ScanAnimation.tsx`: the SVG fallback. It plays on devices without WebGL, and its server-rendered markup is the still image for reduced motion, low-power devices and no JavaScript.
+- `src/styles/nav-hero.css`: styles for all of the above. Values come from `tokens.css`.
+- `src/components/Hero.astro` and `src/scripts/hero.ts`: the opening of every other page. Each page lists its photos as `shots` in `src/data/pages.ts`; the photos are in `public/media/hero/`. To use real video later, replace the film in `Hero.astro` with a muted, looping `<video>`.
 - `src/scripts/viewer.ts`: the full-screen photo viewer on Life at VisAI.
 - `src/lib/links.ts`: vmeasure.ai and vaudit.ai links open in a new tab; all other links stay in the same tab.
 
 ## WebGL effects (`src/three/`)
 
 - `vision.ts`: real photos seen as a machine sees them, with a scan line and mouse lens.
-- `flight.ts`: the homepage flight through photographs in 3D. Photo list is in `src/pages/index.astro`.
 - `scan.ts`: the LiDAR-style point cloud of a pallet.
 - `contour.ts`: the moving contour field in the footer.
 

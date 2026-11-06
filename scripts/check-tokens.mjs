@@ -16,7 +16,7 @@ const walk = (d) =>
 
 let bad = 0;
 for (const file of walk('src')) {
-  if (skip.some((s) => file.includes(s)) || !/\.(astro|ts|css|mjs)$/.test(file)) continue;
+  if (skip.some((s) => file.includes(s)) || !/\.(astro|ts|tsx|css|mjs)$/.test(file)) continue;
   readFileSync(file, 'utf8').split('\n').forEach((line, i) => {
     if (/href=|https?:|#[a-z-]+['"`]/.test(line)) return;
     for (const [name, re] of rules) {

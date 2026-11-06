@@ -18,8 +18,6 @@ export const mediaByUrl = (url: string): Media | undefined =>
 
 export const youtubeId = (url: string) => /(?:v=|youtu\.be\/)([\w-]{11})/.exec(url)?.[1] ?? url;
 
-/** A lighter copy of a photo, used by the 3D flight. */
-export const flyPhoto = (name: string) => media(name).src.replace('/media/', '/media/fly/');
 
 /** A smaller copy of a gallery photo, for tiles and the photo wall. */
 export const thumbOf = (m: Media) => m.src.replace('/media/', '/media/thumb/');

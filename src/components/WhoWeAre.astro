@@ -1,0 +1,77 @@
+---
+// "Who we are": the company, presented like a part on an inspection bench. Photos change shape in a
+// measured frame, dimension lines label them with facts, and a spec sheet fills in row by row.
+// Scroll motion is in src/scripts/who.ts. With reduced motion, everything simply stacks up.
+import Img from './Img.astro';
+
+const chapters = [
+  {
+    text: 'VisAI Labs, founded in 2018, provides AI-enabled computer vision solutions for real-world industry operations.',
+    photo: { src: '/media/hero/team.webp', w: 1920, h: 1039 },
+    alt: 'The VisAI Labs team together on a beach',
+    caption: 'The VisAI Labs team',
+    chain: ['2018', 'Fremont, CA', 'Chennai, India'],
+    specs: [['Founded', '2018'], ['Centres', 'Fremont, CA + Chennai, India']],
+  },
+  {
+    text: 'We design and build the full system in house, including OEM cameras, hardware, and software.',
+    photo: { src: '/media/hero/cam.webp', w: 2560, h: 1920 },
+    alt: 'An OEM camera module',
+    caption: 'OEM camera module',
+    product: true,
+    chain: ['OEM cameras', 'Hardware', 'Software'],
+    specs: [['Build', 'OEM cameras, hardware + software'], ['Cloud', 'SOC 2 compliant']],
+  },
+  {
+    text: 'We believe Physical AI is the future.',
+    photo: { src: '/media/hero/racks.webp', w: 2240, h: 1008 },
+    alt: 'A bright warehouse aisle lined with loaded racking',
+    caption: 'Built for real-world operations',
+    chain: ['Warehouse', 'Logistics', 'Fulfilment'],
+    specs: [['Focus', 'Warehouse, logistics + fulfilment'], ['Outcome', 'Measurable ROI from day one']],
+  },
+];
+---
+<section id="who-we-are" data-who class="who">
+  <div class="who-stage">
+    <div class="who-copy">
+      <div class="who-head">
+        <h2 class="who-kicker">Who we are</h2>
+        <div class="who-progress" aria-hidden="true">
+          <span class="who-count"><span data-who-now>01</span> / 03</span>
+          <span class="who-ticks">{chapters.map(() => <i data-who-tick></i>)}</span>
+        </div>
+      </div>
+      <div class="who-texts">
+        {chapters.map((c) => <p data-who-text class="who-text">{c.text}</p>)}
+      </div>
+      <dl class="who-spec">
+        {chapters.map((c, i) => c.specs.map(([k, v]) => (
+          <div data-who-row={i} class="who-row">
+            <dt>{k}</dt>
+            <dd>{v}</dd>
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="none" aria-hidden="true"><path d="m3 8.4 3.2 3.2L13 4.6" pathLength="1" /></svg>
+          </div>
+        )))}
+      </dl>
+    </div>
+
+    <figure data-who-frame class="who-figure">
+      <div class="who-frame">
+        {chapters.map((c) => (
+          <ol data-who-chain class="who-chain" aria-hidden="true">
+            {c.chain.map((label) => <li><span>{label}</span></li>)}
+          </ol>
+        ))}
+        <div class="who-window">
+          {chapters.map((c) => <div data-who-photo class:list={['who-photo', c.product && 'who-photo-product']}><Img media={c.photo} alt={c.alt} /></div>)}
+          <span data-who-scan class="who-scan" aria-hidden="true"></span>
+        </div>
+        <span class="who-corners" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <div class="who-captions" aria-hidden="true">
+          {chapters.map((c) => <span data-who-caption>{c.caption}</span>)}
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>

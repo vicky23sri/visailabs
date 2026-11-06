@@ -2,7 +2,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import Lenis from 'lenis';
-import './nav';
+import { startWho } from './who';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -14,10 +14,6 @@ const webgl = () => {
   if (document.querySelector('[data-album]')) import('./viewer').then((m) => m.startViewer());
   const vision = document.querySelectorAll<HTMLElement>('[data-vision]');
   if (vision.length) import('../three/vision').then((m) => vision.forEach((v) => m.startVision(v)));
-  const flight = document.querySelector<HTMLElement>('[data-flight]');
-  if (flight) import('../three/flight').then((m) => m.startFlight(flight));
-  const scan = document.querySelector<HTMLCanvasElement>('[data-scan]');
-  if (scan) import('../three/scan').then((m) => m.startScan(scan));
   const contour = document.querySelector<HTMLCanvasElement>('[data-contour]');
   if (contour) new IntersectionObserver((e, io) => {
     if (!e[0].isIntersecting) return;
@@ -47,6 +43,9 @@ if (!reduced) {
     });
     ScrollTrigger.refresh();
   });
+
+  const who = document.querySelector<HTMLElement>('[data-who]');
+  if (who) startWho(who);
 
   // Statements darken word by word while their section holds on screen.
   document.querySelectorAll<HTMLElement>('[data-scrub]').forEach((el) => {

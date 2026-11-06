@@ -9,6 +9,8 @@
 /* FONTS: to swap a family, change the import and the matching --font-* line. */
 @import '@fontsource/instrument-serif/400.css';
 @import '@fontsource-variable/inter-tight';
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/jetbrains-mono';
 
 @theme static {
   /* Removes Tailwind's default palette so only the colors below can be used. */
@@ -69,10 +71,11 @@
   --spacing-gutter: clamp(1.25rem, 3vw, 3rem);
   --spacing-section: clamp(6rem, 12vw, 13rem);
   --spacing-block: clamp(2.75rem, 5vw, 5.5rem);
-  --spacing-nav: 3.75rem; /* navbar height */
-  --spacing-nav-gap: 0.75rem; /* gap between the navbar and the screen edge */
+  --spacing-nav: 4rem; /* navbar height once scrolled */
+  --spacing-nav-top: 5rem; /* navbar height at the top of the page */
   --spacing-media: 72svh; /* tallest a post's cover image can be */
-  --spacing-flight: 340svh; /* scroll length of the 3D photo flight */
+  --spacing-who: 460svh; /* scroll length of the Who we are section; pacing is in scripts/who.ts */
+  --spacing-who-text: clamp(9.5rem, 24svh, 12rem); /* room for its statement on phones */
   --spacing-solution: 88svh; /* scroll length of each solution */
   --spacing-sticky-phone: 38svh; /* solution visual height on phones */
   --spacing-sticky-desk: 76svh; /* solution visual height on desktop */
@@ -88,21 +91,18 @@
   /* ---- LAYOUT ---------------------------------------------------------- */
   --container-page: 110rem;
   --container-prose: 44rem;
-  --container-navbar: 62rem; /* width of the navbar */
+  --container-mega: 60rem; /* width of the Products mega-menu */
 
   /* ---- CORNERS & SHADOW ------------------------------------------------ */
   --radius-sm: 0.5rem;
   --radius-md: 0.875rem;
   --radius-lg: 1.25rem;
   --radius-full: 999px;
-  --shadow-nav: 0 0.75rem 2.5rem -1rem color-mix(in srgb, var(--color-ink) 32%, transparent);
-  --shadow-drop: 0 1.5rem 4rem -1rem color-mix(in srgb, var(--color-ink) 30%, transparent);
 
   /* ---- MOTION ---------------------------------------------------------- */
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 250ms;
   --duration-nav: 650ms;
-  --duration-morph: 420ms; /* navbar condensing and dropdown reshaping */
   --duration-slow: 1100ms;
   --duration-pulse: 2400ms; /* ring around the play button */
 
@@ -110,6 +110,48 @@
   --film-hold-seconds: 6.5; /* time on each photo */
   --film-fade-seconds: 2; /* length of the dissolve between photos */
   --film-push: 0.09; /* how far the camera moves in on each photo */
+
+  /* ---- NAVBAR + HOMEPAGE HERO: "Physical AI that sees and measures" ------
+     Tailwind v4 has no tailwind.config: these lines are the config. Each one
+     also works as a utility (bg-night, text-scan, font-mono, text-hero...). */
+  --color-night: #070b14; /* background of the navbar and homepage hero */
+  --color-night-raised: #101828; /* mega-menu and video panel */
+  --color-scan: #22d3ee; /* electric accent: scan line, point cloud, highlights */
+  --color-scan-soft: #a5f3fc; /* lighter end of the "Physical AI" shimmer */
+  --color-measure: #fbbf24; /* warm accent: measurement labels */
+  --color-ok: #34d399; /* "Captured" check and "Verified" badge */
+  --color-rec: #f87171; /* the REC dot */
+  --color-box-top: #c7a57c; /* parcel faces */
+  --color-box-left: #94734f;
+  --color-box-right: #7a5c3e;
+  --color-box-tape: #e6d5b8;
+  --color-belt: #141c2b; /* conveyor belt */
+  --color-belt-side: #0c1320;
+  --color-metal: #aab3c0; /* conveyor frame and scanner */
+  --color-rubber: #23272f; /* belt surface in the 3D scene */
+  --color-floor: #0b101b; /* floor of the 3D scene */
+  --color-led: #dff4ff; /* scanner light strips */
+  --color-label: #f4f1ea; /* shipping label paper */
+
+  --font-heading: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --text-hero: clamp(2.375rem, 6.6vw, 3.75rem); /* phones and tablets, headline above the scene */
+  --text-hero-wide: min(3.9vw, 9.5svh, 4.25rem); /* beside the scene: sized to hold three lines */
+  --text-hero--line-height: 1.04;
+  --text-who: clamp(2rem, min(1.1rem + 2.7vw, 6.4svh), 4.25rem); /* Who we are statements */
+  --text-who--line-height: 1.03;
+  --text-hud: 0.75rem; /* measurement labels: stays readable on phones */
+  --text-hud--line-height: 1.2;
+
+  --ease-hero: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-reveal: 1000ms; /* headline rising from its mask */
+  --duration-enter: 700ms; /* subtext, buttons and trust strip */
+  --stagger-reveal: 90ms; /* delay between each word or item */
+  --duration-grid-drift: 36s; /* blueprint grid; higher is calmer */
+  --duration-shimmer: 7s; /* "Physical AI" shimmer */
+  --spacing-grid: 4rem; /* blueprint grid cell */
+  /* Parcel sizes and animation timing are at the top of components/react/ScanAnimation.tsx. */
 
   /* ---- WEBGL: read by src/three/ --------------------------------------- */
   --color-vision-bg: #0a0c12; /* background of the machine-vision view */

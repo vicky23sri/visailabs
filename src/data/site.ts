@@ -11,47 +11,42 @@ export const site = {
   formEmail: 'sales@visailabs.com',
 };
 
-type Link = { label: string; href: string };
-type NavGroup = { title?: Link; links: Link[] };
-
-export const nav: { label: string; groups: NavGroup[] }[] = [
-  {
+/** Navbar. `icon` is a key from components/react/icons.tsx. */
+export const navbar = {
+  products: {
     label: 'Products',
     groups: [
       {
-        title: { label: 'vMeasure', href: 'https://vmeasure.ai/' },
-        links: [
-          { label: 'Parcel Dimensioners', href: 'https://vmeasure.ai/dimensioning-systems/' },
-          { label: 'Pallet Dimensioners', href: 'https://vmeasure.ai/pallet-dimensioner/' },
-          { label: 'In-motion Dimensioner', href: 'https://vmeasure.ai/dimensional-scanner/' },
-          { label: 'Mobile Dimensioner', href: 'https://vmeasure.ai/mobile-dimensioning/' },
+        name: 'vMeasure',
+        tagline: 'Dimensioning systems',
+        href: 'https://vmeasure.ai/',
+        items: [
+          { label: 'Parcel Dimensioners', desc: 'Dimensions, weight and images of parcels in seconds.', icon: 'parcel', href: 'https://vmeasure.ai/dimensioning-systems/' },
+          { label: 'Pallet Dimensioners', desc: 'Accurate measurement of pallets and irregular freight.', icon: 'pallet', href: 'https://vmeasure.ai/pallet-dimensioner/' },
+          { label: 'In-motion Dimensioner', desc: 'Measures parcels as they travel along the conveyor.', icon: 'motion', href: 'https://vmeasure.ai/dimensional-scanner/' },
+          { label: 'Mobile Dimensioner', desc: 'Dimensioning on the go, from a mobile device.', icon: 'mobile', href: 'https://vmeasure.ai/mobile-dimensioning/' },
         ],
       },
       {
-        title: { label: 'vAudit', href: 'https://vaudit.ai/' },
-        links: [
-          { label: 'vAudit Video Logger', href: 'https://vaudit.ai/packing-video-recording-system/' },
-          { label: 'vAudit Order Verification', href: 'https://vaudit.ai/order-verification-system/' },
-          { label: 'vAudit Returns Processing', href: 'https://vaudit.ai/returns-management-software/' },
+        name: 'vAudit',
+        tagline: 'Packing video verification',
+        href: 'https://vaudit.ai/',
+        items: [
+          { label: 'Video Logger', desc: 'Video proof of packing, linked to each order ID.', icon: 'video', href: 'https://vaudit.ai/packing-video-recording-system/' },
+          { label: 'Order Verification', desc: 'Order checks at the pack station, on record.', icon: 'verify', href: 'https://vaudit.ai/order-verification-system/' },
+          { label: 'Returns Processing', desc: 'Returns inspection on video, linked to the return ID.', icon: 'returns', href: 'https://vaudit.ai/returns-management-software/' },
         ],
       },
     ],
   },
-  { label: 'Resources', groups: [{ links: [{ label: 'Blog', href: '/blog/' }] }] },
-  {
-    label: 'Company',
-    groups: [
-      {
-        links: [
-          { label: 'About VisAI Labs', href: '/about-us/' },
-          { label: 'Contact', href: '/contact/' },
-          { label: 'Careers', href: '/careers/' },
-          { label: 'Life at VisAI', href: '/life-at-visai/' },
-        ],
-      },
-    ],
-  },
-];
+  links: [
+    { label: 'Resources', href: '/blog/' },
+    { label: 'Company', href: '/about-us/' },
+    { label: 'Careers', href: '/careers/' },
+    { label: 'Life at VisAI', href: '/life-at-visai/' },
+  ],
+  cta: { label: 'Book a Demo', href: '/contact/' },
+};
 export const empLogin = { label: 'Emp Login', href: 'https://hrmax.myadrenalin.com/azureauth/' };
 
 export const footer = [
@@ -90,6 +85,18 @@ export const legal = [
   { label: 'Privacy Policy', href: '/privacy-policy/' },
   { label: 'Sitemap', href: '/sitemap-index.xml' },
 ];
+
+/** Homepage hero wording. The measurement values are in ScanAnimation.tsx. */
+export const homeHero = {
+  before: 'Building',
+  highlight: 'Physical AI',
+  after: 'Solutions with Advanced Computer Vision',
+  sub: 'Built for real-world warehouse and logistics operations. Focused on dimensioning accuracy and pack station visibility.',
+  primary: { label: 'Explore vMeasure', href: 'https://vmeasure.ai/' },
+  secondary: { label: 'Explore vAudit', href: 'https://vaudit.ai/' },
+  trust: ['Founded 2018', 'SOC 2 compliant cloud', 'In-house hardware + software'],
+  cue: 'Scroll to explore',
+};
 
 /** Interface words the original never spells out. Kept together for easy review. */
 export const ui = {

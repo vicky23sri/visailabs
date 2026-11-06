@@ -1,0 +1,336 @@
+/* "Who we are". Every value comes from tokens.css. */
+@layer components {
+  /* Without motion: a plain stacked section. */
+  .who {
+    position: relative;
+    z-index: 1;
+    background-color: var(--color-white);
+    color: var(--color-ink);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    margin-top: calc(var(--radius-lg) * -1);
+  }
+  .who-stage {
+    display: grid;
+    gap: var(--spacing-block);
+    width: 100%;
+    max-width: var(--container-page);
+    margin-inline: auto;
+    padding: var(--spacing-section) var(--spacing-gutter) var(--spacing-block);
+  }
+  .who-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(var(--spacing) * 4);
+    padding-bottom: calc(var(--spacing) * 4);
+    border-bottom: 1px solid var(--color-line);
+  }
+  .who-kicker {
+    font-family: var(--font-mono);
+    font-size: var(--text-hud);
+    font-weight: 500;
+    line-height: var(--text-hud--line-height);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-ember);
+  }
+  .who-progress {
+    display: none;
+  }
+  .who-texts {
+    display: grid;
+    gap: calc(var(--spacing) * 6);
+    margin-top: calc(var(--spacing) * 8);
+  }
+  .who-text {
+    font-family: var(--font-display);
+    font-size: var(--text-who);
+    line-height: var(--text-who--line-height);
+    letter-spacing: var(--tracking-tight);
+    text-wrap: balance;
+  }
+  .who-spec {
+    margin-top: calc(var(--spacing) * 8);
+    border-top: 1px solid var(--color-line);
+    font-family: var(--font-mono);
+    font-size: var(--text-hud);
+    line-height: var(--text-hud--line-height);
+  }
+  .who-row {
+    display: grid;
+    grid-template-columns: 6rem 1fr auto;
+    align-items: center;
+    gap: calc(var(--spacing) * 3);
+    padding-block: calc(var(--spacing) * 2.5);
+    border-bottom: 1px solid var(--color-line);
+  }
+  .who-row dt {
+    color: var(--color-muted);
+  }
+  .who-row path {
+    stroke: var(--color-ember);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+  .who-frame {
+    display: grid;
+    gap: calc(var(--spacing) * 4);
+  }
+  .who-window {
+    display: grid;
+    gap: calc(var(--spacing) * 4);
+  }
+  .who-photo img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+  }
+  /* A product cut out on transparency sits whole on a clean panel. */
+  .who-photo-product {
+    background-color: var(--color-sand);
+    border-radius: var(--radius-md);
+  }
+  .who-photo-product img {
+    padding: calc(var(--spacing) * 6);
+  }
+  .who-chain,
+  .who-scan,
+  .who-corners,
+  .who-captions {
+    display: none;
+  }
+}
+
+/* With motion: the section holds on screen while scroll plays through it. Set before first paint
+   by the page's .anim class, so nothing moves when the script arrives. */
+.anim .who {
+  height: var(--spacing-who);
+
+  .who-stage {
+    position: sticky;
+    top: 0;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: calc(var(--spacing) * 5);
+    height: 100svh;
+    max-width: none;
+    padding: calc(var(--spacing-nav) + var(--spacing) * 5) var(--spacing-gutter) calc(var(--spacing) * 5);
+    overflow: hidden;
+    /* Fine graph paper, fading out toward the edges. */
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--color-ink) 5%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--color-ink) 5%, transparent) 1px, transparent 1px);
+    background-size: var(--spacing-grid) var(--spacing-grid);
+  }
+  .who-progress {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--spacing) * 3);
+    font-family: var(--font-mono);
+    font-size: var(--text-hud);
+    line-height: var(--text-hud--line-height);
+    color: var(--color-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .who-ticks {
+    display: flex;
+    gap: calc(var(--spacing) * 1);
+  }
+  .who-ticks i {
+    position: relative;
+    display: block;
+    width: calc(var(--spacing) * 6);
+    height: 2px;
+    overflow: hidden;
+    background-color: var(--color-line);
+  }
+  .who-ticks i::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-ember);
+    transform-origin: left;
+    transform: scaleX(var(--fill, 0));
+  }
+  .who-texts {
+    display: block;
+    position: relative;
+    height: var(--spacing-who-text);
+    margin-top: calc(var(--spacing) * 5);
+  }
+  .who-text {
+    position: absolute;
+    inset: 0 0 auto 0;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+  .who-spec {
+    display: none;
+    margin-top: 0;
+  }
+  .who-figure {
+    position: relative;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    --t: 12;
+    --r: 0;
+    --b: 12;
+    --l: 0;
+    padding-block: calc(var(--spacing) * 9) calc(var(--spacing) * 8);
+  }
+  .who-frame {
+    display: block;
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    container-type: size; /* lets the brackets move in percentages of the frame */
+  }
+  .who-window {
+    display: block;
+    position: absolute;
+    inset: 0;
+    clip-path: inset(calc(var(--t) * 1%) calc(var(--r) * 1%) calc(var(--b) * 1%) calc(var(--l) * 1%) round var(--radius-sm));
+    background-color: var(--color-sand);
+    will-change: clip-path;
+  }
+  .who-photo {
+    position: absolute;
+    inset: 0;
+    will-change: clip-path;
+  }
+  .who-photo img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    border-radius: 0;
+  }
+  .who-photo-product {
+    border-radius: 0;
+  }
+  .who-photo-product img {
+    object-fit: contain;
+    padding: 7%;
+  }
+  /* The scan line: a hard edge with a soft wash trailing behind it. */
+  .who-scan {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    margin-left: -1px;
+    transform: translateX(calc(var(--at, 0) * 1cqw));
+    will-change: transform;
+    visibility: hidden;
+    background-color: var(--color-orange);
+    box-shadow: 0 0 1rem color-mix(in srgb, var(--color-orange) 70%, transparent);
+  }
+  .who-scan::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 2px;
+    width: 18vw;
+    background: linear-gradient(to left, color-mix(in srgb, var(--color-orange) 22%, transparent), transparent);
+  }
+  /* Detection brackets, sitting just outside the photo. */
+  .who-corners {
+    display: block;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .who-corners i {
+    position: absolute;
+    width: calc(var(--spacing) * 5);
+    height: calc(var(--spacing) * 5);
+    border: 0 solid var(--color-ember);
+    will-change: transform;
+  }
+  .who-corners i:nth-child(1) { top: -5px; left: -5px; border-width: 2px 0 0 2px; transform: translate(calc(var(--l) * 1cqw), calc(var(--t) * 1cqh)); }
+  .who-corners i:nth-child(2) { top: -5px; right: -5px; border-width: 2px 2px 0 0; transform: translate(calc(var(--r) * -1cqw), calc(var(--t) * 1cqh)); }
+  .who-corners i:nth-child(3) { bottom: -5px; right: -5px; border-width: 0 2px 2px 0; transform: translate(calc(var(--r) * -1cqw), calc(var(--b) * -1cqh)); }
+  .who-corners i:nth-child(4) { bottom: -5px; left: -5px; border-width: 0 0 2px 2px; transform: translate(calc(var(--l) * 1cqw), calc(var(--b) * -1cqh)); }
+
+  /* A chain of dimensions above the photo: facts where a drawing would have measurements. */
+  .who-chain {
+    display: flex;
+    position: absolute;
+    left: calc(var(--l) * 1%);
+    right: calc(var(--r) * 1%);
+    bottom: calc(100% - var(--t) * 1% + var(--spacing) * 3);
+    font-family: var(--font-mono);
+    font-size: var(--text-hud);
+    line-height: var(--text-hud--line-height);
+    color: var(--color-ember);
+    clip-path: inset(-1rem var(--draw, 0%) -1rem 0);
+  }
+  .who-chain li {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    padding-bottom: calc(var(--spacing) * 2);
+    border-bottom: 1px solid var(--color-ember);
+    text-align: center;
+    white-space: nowrap;
+  }
+  .who-chain li::before,
+  .who-chain li:last-child::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 1px;
+    height: 8px;
+    background-color: var(--color-ember);
+  }
+  .who-chain li:last-child::after {
+    left: auto;
+    right: 0;
+  }
+  .who-captions {
+    display: block;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    font-family: var(--font-mono);
+    font-size: var(--text-hud);
+    line-height: var(--text-hud--line-height);
+    color: var(--color-muted);
+  }
+  .who-captions span {
+    position: absolute;
+    left: calc(var(--l) * 1%);
+    top: calc(100% - var(--b) * 1% + var(--spacing) * 3);
+    white-space: nowrap;
+  }
+  @media (min-width: 64rem) {
+    .who-stage {
+      grid-template-rows: minmax(0, 1fr);
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: calc(var(--spacing) * 12);
+      align-items: stretch;
+      padding-top: calc(var(--spacing-nav) + var(--spacing) * 7);
+      padding-bottom: calc(var(--spacing) * 7);
+    }
+    .who-copy {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .who-texts {
+      flex: 1;
+      height: auto;
+      margin-top: calc(var(--spacing) * 7);
+    }
+    .who-spec {
+      display: block;
+    }
+  }
+}
